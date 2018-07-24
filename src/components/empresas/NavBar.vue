@@ -2,7 +2,7 @@
  <nav>
    <md-toolbar class="md-primary">
      <h3 class="md-title">Challenge Blanq</h3>
-     <div><button>Nova Empresa</button></div>
+       <md-button class="md-raised" id="btn"><md-icon>add</md-icon>Nova Empresa</md-button>
    </md-toolbar>
  </nav>
 </template>
@@ -12,6 +12,9 @@
  }
 </script>
 <style lang="scss">
-
+ #btn {
+  background-color: rgb(24, 163, 24);
+  color: white;
+ }
 </style>
 
