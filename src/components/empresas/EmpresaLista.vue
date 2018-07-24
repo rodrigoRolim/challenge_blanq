@@ -1,22 +1,63 @@
 <template>
- <div>
-       <md-table v-model="users" md-card>
+<div>
+ <NavBar></NavBar>
+ <div class="container-business">
+   <md-table v-model="business" md-card>
       <md-table-toolbar>
         <h1 class="md-title">Empresas</h1>
       </md-table-toolbar>
-
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Nome" md-sort-by="id" md-numeric>{{}}</md-table-cell>
-        <md-table-cell md-label="Endereço" md-sort-by="name">{{  }}</md-table-cell>
-        <md-table-cell md-label="Detalhes" md-sort-by="email">{{  }}</md-table-cell>
+        <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
+        <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
+        <md-table-cell md-label="Endereço" md-sort-by="address">{{ item.address }}</md-table-cell>
+        <md-table-cell md-label="Detalhes" md-sort-by="detail"><a href="">{{ item.detail }}</a></md-table-cell>
       </md-table-row>
-    </md-table>
+   </md-table>
  </div>
+</div>
 </template>
 <script>
-  
+import NavBar from './NavBar.vue'
+export default {
+  name: 'TableBusiness',
+  components: {
+   NavBar,
+  },
+  data: () => ({
+   business: [
+    {
+     id: 1,
+     name: 'empresa 1',
+     address: 'endereço 1',
+     detail: 'detalhes',
+    },
+    {
+     id: 2,
+     name: 'empresa 1',
+     address: 'endereço 1',
+     detail: 'detalhes',
+    },
+    {
+     id: 3,
+     name: 'empresa 1',
+     address: 'endereço 1',
+     detail: 'detalhes',
+    },
+    {
+     id: 4,
+     name: 'empresa 1',
+     address: 'endereço 1',
+     detail: 'detalhes',
+    },
+   ]
+  }),
+}
+ 
 </script>
 <style lang="scss">
-
+ .container-business {
+  width: 60%;
+  margin: 0 auto;
+ }
 </style>
 
