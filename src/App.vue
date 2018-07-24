@@ -1,17 +1,17 @@
 <template>
 <div>
-  <h1>{{ message }}</h1>
-  <ComponentA></ComponentA>
+  <empresa-lista></empresa-lista>
 </div>
  
 </template>
 
 <script>
-import ComponentA from './components/componentA.vue';
+import EmpresaLista from './components/empresas/EmpresaLista.vue'
 export default {
   name: 'app',
   components: {
-   ComponentA
+   ComponentA,
+   EmpresaLista
   },
   data() {
     return {
@@ -22,7 +22,7 @@ export default {
 </script>
 <style lang="scss">
  $font-stack:    Helvetica, sans-serif;
- $primary-color: rgb(194, 2, 2);
+ $primary-color: rgb(68, 67, 67);
 
  body {
   font: 100% $font-stack;
