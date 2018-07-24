@@ -10,7 +10,10 @@ import {
   MdToolbar,
  } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
-import App from './App.vue';
+import VueRouter from 'vue-router'
+import routes from  './routes'
+import EmpresaLista from './components/empresas/EmpresaLista.vue'
+import App from './App.vue'
 
 Vue.use(MdButton)
 Vue.use(MdContent)
@@ -19,8 +22,14 @@ Vue.use(MdTable)
 Vue.use(MdCard)
 Vue.use(MdRipple)
 Vue.use(MdToolbar)
-//Vue.use(MdNumeric)
+
+Vue.use(VueRouter)
+
+const router = new VueRouter({
+  routes
+})
 new Vue({
+  router,
   el: '#app',
   render: h => h(App)
 });

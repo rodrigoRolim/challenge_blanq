@@ -1,7 +1,8 @@
 <template>
  <nav>
    <md-toolbar class="md-primary">
-     <h3 class="md-title">Primary</h3>
+     <h3 class="md-title">Challenge Blanq</h3>
+     <div><button>Nova Empresa</button></div>
    </md-toolbar>
  </nav>
 </template>

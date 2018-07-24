@@ -56,6 +56,7 @@ export default {
 </script>
 <style lang="scss">
  .container-business {
+  padding: 100px 0;
   width: 60%;
   margin: 0 auto;
  }

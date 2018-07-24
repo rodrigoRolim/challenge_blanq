@@ -1,8 +1,8 @@
 <template>
-<div class="container-root">
-  <empresa-lista></empresa-lista>
+<div>
+    <router-view></router-view>
 </div>
- 
+
 </template>
 
 <script>
@@ -27,6 +27,7 @@ export default {
   font: 100% $font-stack;
  }
  .container-root {
+   padding: 100px 0;
    display: $display-flex;
    flex-direction: column;
  }
