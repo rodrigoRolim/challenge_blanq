@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="container-root">
   <empresa-lista></empresa-lista>
 </div>
  
@@ -10,7 +10,6 @@ import EmpresaLista from './components/empresas/EmpresaLista.vue'
 export default {
   name: 'app',
   components: {
-   ComponentA,
    EmpresaLista
   },
   data() {
@@ -22,10 +21,13 @@ export default {
 </script>
 <style lang="scss">
  $font-stack:    Helvetica, sans-serif;
- $primary-color: rgb(68, 67, 67);
+ $display-flex: flex;
 
  body {
   font: 100% $font-stack;
-  color: $primary-color;
+ }
+ .container-root {
+   display: $display-flex;
+   flex-direction: column;
  }
 </style>
