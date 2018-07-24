@@ -8,6 +8,7 @@ import {
   MdCard,
   MdNumeric,
   MdToolbar,
+  MdIcon,
  } from 'vue-material/dist/components'
 import 'vue-material/dist/vue-material.min.css'
 import VueRouter from 'vue-router'
@@ -22,6 +23,7 @@ Vue.use(MdTable)
 Vue.use(MdCard)
 Vue.use(MdRipple)
 Vue.use(MdToolbar)
+Vue.use(MdIcon)
 
 Vue.use(VueRouter)
 
