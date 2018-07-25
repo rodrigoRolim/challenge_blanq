@@ -31,19 +31,21 @@ export default {
   data: () => ({
    business: []
   }),
-  beforeCreate() {
-   fetch('https://parseapi.back4app.com/classes/Company/', {
+
+  beforeCreate () {
+    fetch('https://parseapi.back4app.com/classes/Company/', {
       method: 'get',
       headers: {         
         "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
         "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
       },
-     } 
+    } 
     ).then(response => 
         response.json().then(json => {
           this.business = json.results
     }))
-  }
+  },
+
 }
  
 </script>
