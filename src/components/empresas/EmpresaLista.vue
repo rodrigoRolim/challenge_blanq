@@ -67,8 +67,11 @@ export default {
   margin: 0 auto;
  }
   #btn {
-  background-color: rgb(67, 160, 67);
+  background-color: rgb(12, 136, 105);
   color: white;
+ }
+ #ic {
+     color: white;
  }
 </style>
 
