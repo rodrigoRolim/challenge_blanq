@@ -29,12 +29,11 @@
        <label for="">Adicione telefones</label>
        <md-input 
         name="business-phones" 
-        id="business-phones"></md-input>
-        <md-button class="md-fab md-mini md-primary">
+        id="business-phones" v-model="phone"></md-input>
+        <md-button v-on:click="addPhone" class="md-fab md-mini md-primary">
           <md-icon>add</md-icon>
         </md-button>
       </md-field>
-    
      </div>
      <div class="md-layout-item md-small-size-100">
       <md-field>
@@ -53,10 +52,10 @@
   </md-card>
  </form> 
  </div>
- 
 </template>
 <script>
  import NavBar from '../NavBar.vue'
+ import { Business } from '../../models/Business'
  export default {
   name: 'NovaEmpresa',
   components: {
@@ -64,9 +63,19 @@
   },
   data: () => {
    return {
-
+    phone: '',
+    business: new Business()
    }
-  }
+  },
+  methods: {
+    addPhone () {
+      this.business.phones.push(this.phone);
+    }
+  },
+  beforeDestroy () {
+   this.business = null
+   delete this.business
+  },
  }
 </script>
 <style>
