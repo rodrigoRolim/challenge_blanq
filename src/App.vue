@@ -19,7 +19,7 @@ export default {
   }
 };
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
  $font-stack:    Helvetica, sans-serif;
  $display-flex: flex;
 
