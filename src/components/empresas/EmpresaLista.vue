@@ -42,8 +42,6 @@ export default {
     ).then(response => 
         response.json().then(json => {
           this.business = json.results
-          console.log(json.results[0].name)
-         console.log(this.business)
     }))
   }
 }
