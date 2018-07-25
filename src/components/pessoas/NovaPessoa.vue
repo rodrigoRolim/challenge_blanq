@@ -16,31 +16,31 @@
          id="person-firstname"></md-input>
        </md-field>
       </div> 
-     <div class="md-layout-item md-large-size-100">
-      <md-field>
-       <label for="person-lastname">sobrenome</label>
-       <md-input 
-        name="person-lastname" 
-        id="person-lastname"></md-input>
-      </md-field>
-     </div>
-     <div class="md-layout-item md-small-size-100">
-      <md-field>
-       <label for="person-email">email</label>
-       <md-input 
-        name="person-email" 
-        id="person-email"></md-input>
-      </md-field>
-    
-     </div>
-     <div class="md-layout-item md-small-size-100">
-      <md-field>
-       <label for="list-business">lista de empresas</label>
-       <md-input 
-        name="list-business" 
-        id="list-business"></md-input>
-      </md-field>
-     </div>
+      <div class="md-layout-item md-small-size-100">
+       <md-field>
+        <label for="person-lastname">sobrenome</label>
+        <md-input 
+         name="person-lastname" 
+         id="person-lastname"></md-input>
+       </md-field>
+      </div>
+      <div class="md-layout-item md-large-size-50">
+       <md-field>
+        <label for="person-email">email</label>
+        <md-input 
+         name="person-email" 
+         id="person-email"></md-input>
+       </md-field>
+     
+      </div>
+      <div class="md-layout-item md-small-size-100">
+       <md-field>
+        <label for="list-business">lista de empresas</label>
+        <md-input 
+         name="list-business" 
+         id="list-business"></md-input>
+       </md-field>
+      </div>
     </div> 
    </md-card-content>
    <md-button>Save</md-button>
