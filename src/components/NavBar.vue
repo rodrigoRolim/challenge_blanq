@@ -6,7 +6,7 @@
        <router-link to="/business"> 
         <md-button class="md-raised" id="btn-bus">Empresas</md-button>
       </router-link>
-      <router-link to="/staff"> 
+      <router-link to="/persons"> 
         <md-button class="md-raised">Pessoas</md-button>
       </router-link>
      </div>
