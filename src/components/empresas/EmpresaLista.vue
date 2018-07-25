@@ -5,7 +5,7 @@
    <md-table v-model="business" md-card md-sort="name" md-sort-order="asc" md-fixed-header>
       <md-table-toolbar>
         <h1 class="md-title">Empresas</h1>
-         <router-link to="/new-business"> 
+         <router-link to="/new-company"> 
         <md-button class="md-raised" id="btn">
           <md-icon id="ic">add</md-icon> nova Empresa</md-button>
       </router-link>
@@ -47,7 +47,6 @@ export default {
   },
 
 }
- 
 </script>
 <style lang="scss">
  .container-business {
