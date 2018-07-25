@@ -3,5 +3,7 @@ export class Person {
   this.id = ''
   this.firstname = ''
   this.lastname = ''
+  this.email = ''
+  this.business = []
  }
 }
