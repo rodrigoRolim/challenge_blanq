@@ -10,38 +10,35 @@
     <div class="md-layout md-gutter">
       <div class="md-layout-item md-small-size-100">
        <md-field>
-        <label for="">nome</label>
+        <label for="person-firstname">nome</label>
         <md-input 
-         name="business-name" 
-         id="business-name"></md-input>
+         name="person-firstname" 
+         id="person-firstname"></md-input>
        </md-field>
       </div> 
      <div class="md-layout-item md-large-size-100">
       <md-field>
-       <label for="">sobrenome</label>
+       <label for="person-lastname">sobrenome</label>
        <md-input 
-        name="business-address" 
-        id="business-address"></md-input>
+        name="person-lastname" 
+        id="person-lastname"></md-input>
       </md-field>
      </div>
      <div class="md-layout-item md-small-size-100">
       <md-field>
-       <label for="">email</label>
+       <label for="person-email">email</label>
        <md-input 
-        name="business-phones" 
-        id="business-phones"></md-input>
+        name="person-email" 
+        id="person-email"></md-input>
       </md-field>
     
      </div>
      <div class="md-layout-item md-small-size-100">
       <md-field>
-       <label for="">lista de empresas</label>
+       <label for="list-business">lista de empresas</label>
        <md-input 
-        name="business-images" 
-        id="business-images"></md-input>
-       <md-button class="md-fab md-mini md-primary">
-        <md-icon>add</md-icon>
-       </md-button>
+        name="list-business" 
+        id="list-business"></md-input>
       </md-field>
      </div>
     </div> 
