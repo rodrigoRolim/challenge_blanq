@@ -30,9 +30,9 @@
        <md-input 
         name="business-phones" 
         id="business-phones"></md-input>
-          <md-button class="md-fab md-mini md-primary">
-        <md-icon>add</md-icon>
-      </md-button>
+        <md-button class="md-fab md-mini md-primary">
+          <md-icon>add</md-icon>
+        </md-button>
       </md-field>
     
      </div>
