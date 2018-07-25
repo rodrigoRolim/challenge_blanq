@@ -15,6 +15,14 @@
    return {
 
    }
+  },
+  methods: {
+    addPhone () {
+      this.form.phones.push(this.phone);
+    },
+    removePhone (phone) {
+      this.form.phones = this.form.phones.filter(p => p !== phone)
+    },
   }
  }
 </script>
