@@ -36,9 +36,11 @@
        <div class="md-layout-item md-large-size-50">
         <md-field>
          <label for="list-business">lista de empresas</label>
-         <md-input 
+         <md-select 
           name="list-business" 
-          id="list-business"></md-input>
+          id="list-business">
+           <md-option></md-option>
+          </md-select>
         </md-field>
        </div>
      </div> 
