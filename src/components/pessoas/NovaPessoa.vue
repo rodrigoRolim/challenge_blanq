@@ -35,11 +35,17 @@
        </div>
        <div class="md-layout-item md-large-size-50">
         <md-field>
-         <label for="list-business">lista de empresas</label>
+         <label for="companies">lista de empresas</label>
          <md-select 
-          name="list-business" 
-          id="list-business">
-           <md-option></md-option>
+          name="companies" 
+          id="companies"
+          md-dense
+          multiple
+          v-model="selectedCompanies"
+         >
+           <md-option :value="company.name" v-for="company in companies" v-bind:key="company.id">
+             {{ company.name }}
+            </md-option>
           </md-select>
         </md-field>
        </div>
@@ -56,7 +62,27 @@
   name: 'NovaPessoa',
   components: {
    NavBar,
-  }
+  },
+  data: () => {
+    return {
+      companies: [],
+      selectedCompanies: []
+    }
+  },
+  beforeCreate () {
+    fetch('https://parseapi.back4app.com/classes/Company/', {
+      method: 'get',
+      headers: {         
+        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+      },
+    } 
+    ).then(response => 
+        response.json().then(json => {
+          this.companies = json.results
+    }))
+  },
+
  }
 </script>
 <style>
