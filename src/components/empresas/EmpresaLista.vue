@@ -11,7 +11,6 @@
       </router-link>
       </md-table-toolbar>
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="Endereço" md-sort-by="address">{{ item.address }}</md-table-cell>
         <md-table-cell md-label="Detalhes" >
@@ -30,33 +29,23 @@ export default {
    NavBar,
   },
   data: () => ({
-   business: [
-    {
-     id: 1,
-     name: 'empresa 1',
-     address: 'endereço 1',
-     detail: 'detalhes',
-    },
-    {
-     id: 2,
-     name: 'empresa 1',
-     address: 'endereço 1',
-     detail: 'detalhes',
-    },
-    {
-     id: 3,
-     name: 'empresa 1',
-     address: 'endereço 1',
-     detail: 'detalhes',
-    },
-    {
-     id: 4,
-     name: 'empresa 1',
-     address: 'endereço 1',
-     detail: 'detalhes',
-    },
-   ]
+   business: []
   }),
+  beforeCreate() {
+   fetch('https://parseapi.back4app.com/classes/Company/', {
+      method: 'get',
+      headers: {         
+        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+      },
+     } 
+    ).then(response => 
+        response.json().then(json => {
+          this.business = json.results
+          console.log(json.results[0].name)
+         console.log(this.business)
+    }))
+  }
 }
  
 </script>
