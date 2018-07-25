@@ -49,7 +49,13 @@
  </div>
 </template>
 <script>
- 
+ import NavBar from '../NavBar.vue'
+ export default {
+  name: 'NovaPessoa',
+  components: {
+   NavBar,
+  }
+ }
 </script>
 <style>
 
