@@ -14,7 +14,9 @@
         <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
         <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="Endereço" md-sort-by="address">{{ item.address }}</md-table-cell>
-        <md-table-cell md-label="Detalhes" ><router-link to="/details-business">detalhes</router-link></md-table-cell>
+        <md-table-cell md-label="Detalhes" >
+          <router-link to="/details-business">detalhes</router-link>
+        </md-table-cell>
       </md-table-row>
    </md-table>
  </div>
