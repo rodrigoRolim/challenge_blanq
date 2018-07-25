@@ -5,6 +5,10 @@
    <md-table v-model="business" md-card>
       <md-table-toolbar>
         <h1 class="md-title">Empresas</h1>
+         <router-link to="/new-business"> 
+        <md-button class="md-raised" id="btn">
+          <md-icon id="ic">add</md-icon> nova Empresa</md-button>
+      </router-link>
       </md-table-toolbar>
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
@@ -17,7 +21,7 @@
 </div>
 </template>
 <script>
-import NavBar from './NavBar.vue'
+import NavBar from '../NavBar.vue'
 export default {
   name: 'TableBusiness',
   components: {
@@ -56,9 +60,15 @@ export default {
 </script>
 <style lang="scss">
  .container-business {
+  display: flex;
+  flex-direction: column;
   padding: 100px 0;
   width: 60%;
   margin: 0 auto;
+ }
+  #btn {
+  background-color: rgb(67, 160, 67);
+  color: white;
  }
 </style>
 
