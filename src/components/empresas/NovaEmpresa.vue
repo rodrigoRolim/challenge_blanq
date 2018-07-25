@@ -26,7 +26,7 @@
      </div>
      <div class="md-layout-item md-small-size-100">
       <md-field>
-       <label for="">Lista de telefones</label>
+       <label for="">Adicione telefones</label>
        <md-input 
         name="business-phones" 
         id="business-phones"></md-input>
@@ -38,13 +38,13 @@
      </div>
      <div class="md-layout-item md-small-size-100">
       <md-field>
-       <label for="">Lista de imagens</label>
+       <label for="">Adicione imagens</label>
        <md-input 
         name="business-images" 
         id="business-images"></md-input>
-          <md-button class="md-fab md-mini md-primary">
-        <md-icon>add</md-icon>
-      </md-button>
+        <md-button class="md-fab md-mini md-primary">
+         <md-icon>add</md-icon>
+        </md-button>
       </md-field>
      </div>
     </div> 
