@@ -2,7 +2,7 @@
 <div>
  <NavBar></NavBar>
  <div class="container-business">
-   <md-table v-model="business" md-card>
+   <md-table v-model="business" md-card md-sort="name" md-sort-order="asc" md-fixed-header>
       <md-table-toolbar>
         <h1 class="md-title">Empresas</h1>
          <router-link to="/new-business"> 
@@ -10,7 +10,7 @@
           <md-icon id="ic">add</md-icon> nova Empresa</md-button>
       </router-link>
       </md-table-toolbar>
-      <md-table-row slot="md-table-row" slot-scope="{ item }">
+      <md-table-row slot="md-table-row" slot-scope="{ item }" class="md-scrollbar">
         <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="Endereço" md-sort-by="address">{{ item.address }}</md-table-cell>
         <md-table-cell md-label="Detalhes" >
@@ -56,6 +56,7 @@ export default {
   padding: 100px 0;
   width: 60%;
   margin: 0 auto;
+
  }
   #btn {
   background-color: rgb(12, 136, 105);
