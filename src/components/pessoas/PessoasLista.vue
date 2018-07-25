@@ -5,10 +5,10 @@
    <md-table v-model="persons" md-card>
       <md-table-toolbar>
         <h1 class="md-title">Pessoas</h1>
-         <router-link to="/new-persons"> 
+        <router-link to="/new-persons"> 
         <md-button class="md-raised">
           <md-icon class="md-size-1x" >add</md-icon> nova Pessoa</md-button>
-      </router-link>
+        </router-link>
       </md-table-toolbar>
       <md-table-row slot="md-table-row" slot-scope="{ item }">
         <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id }}</md-table-cell>
