@@ -1,7 +1,7 @@
 <template>
  <div>
   <NavBar></NavBar>
- <form class="md-layout  md-alignment-space-around-center">
+ <form novalidate class="md-layout  md-alignment-space-around-center">
   <md-card class="md-layout-item md-size-50 md-small-size-100">
    <md-card-header>
     <div class="md-title">Empresas</div>
@@ -13,7 +13,8 @@
         <label for="">Nome da empresa</label>
         <md-input 
          name="business-name" 
-         id="business-name"></md-input>
+         id="business-name"
+         v-model="form.name"></md-input>
        </md-field>
       </div> 
      <div class="md-layout-item md-large-size-100">
@@ -21,7 +22,8 @@
        <label for="">Endereço da empresa</label>
        <md-input 
         name="business-address" 
-        id="business-address"></md-input>
+        id="business-address"
+        v-model="form.address"></md-input>
       </md-field>
      </div>
      <div class="md-layout-item md-small-size-100">
@@ -56,6 +58,7 @@
 <script>
  import NavBar from '../NavBar.vue'
  import { Business } from '../../models/Business'
+
  export default {
   name: 'NovaEmpresa',
   components: {
@@ -63,6 +66,12 @@
   },
   data: () => {
    return {
+    form: {
+        businessName: null,
+        businessAddress: null,
+        pictures: [],
+        phones: [],
+    },
     phone: '',
     picture: '',
     business: new Business()
@@ -70,10 +79,13 @@
   },
   methods: {
     addPhone () {
-      this.business.phones.push(this.phone);
+      this.form.phones.push(this.phone);
     },
     addPictures () {
-      this.business.pictures.push(this.pictures);
+      this.form.pictures.push(this.pictures);
+    },
+    sendSave () {
+
     }
   },
   beforeDestroy () {
