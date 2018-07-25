@@ -40,8 +40,8 @@
        <label for="">Adicione imagens</label>
        <md-input 
         name="business-images" 
-        id="business-images"></md-input>
-        <md-button class="md-fab md-mini md-primary">
+        id="business-images" v-model="picture"></md-input>
+        <md-button v-on:click="addPictures" class="md-fab md-mini md-primary">
          <md-icon>add</md-icon>
         </md-button>
       </md-field>
@@ -64,12 +64,16 @@
   data: () => {
    return {
     phone: '',
+    picture: '',
     business: new Business()
    }
   },
   methods: {
     addPhone () {
       this.business.phones.push(this.phone);
+    },
+    addPictures () {
+      this.business.pictures.push(this.pictures);
     }
   },
   beforeDestroy () {
