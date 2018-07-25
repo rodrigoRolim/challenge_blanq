@@ -12,7 +12,7 @@ export default {
   components: {
    EmpresaLista
   },
-  data() {
+  data () {
     return {
       message: 'Hello, Vue!'
     };
