@@ -1,7 +1,7 @@
 <template>
   <div class="lista-phone">
      <md-list>
-      <md-list-item v-for="phone in form.phones" v-bind:key="phone">
+      <md-list-item v-for="phone in phoneList" v-bind:key="phone">
         {{ phone }} <span v-on:click="removePhone(phone)"><md-icon >delete_forever</md-icon></span>
         </md-list-item>
      </md-list>
@@ -17,9 +17,6 @@
    }
   },
   methods: {
-    addPhone () {
-      this.form.phones.push(this.phone);
-    },
     removePhone (phone) {
       this.form.phones = this.form.phones.filter(p => p !== phone)
     },
