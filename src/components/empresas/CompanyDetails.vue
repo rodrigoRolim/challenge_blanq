@@ -8,14 +8,14 @@
       </md-toolbar>
     <md-content>
       <md-list  >
-        <md-list-item>Nome: {{ company[0].name }}</md-list-item>
-        <md-list-item>Endereço: {{ company[0].address }}</md-list-item>
-        <md-list-item>Phones: {{ company[0].name }}</md-list-item>
+        <md-list-item>Nome: {{ company.name }}</md-list-item>
+        <md-list-item>Endereço: {{ company.address }}</md-list-item>
+        <md-list-item>Phones: {{ company.name }}</md-list-item>
       </md-list>
       <md-list  >
         <md-subheader >Visitantes: </md-subheader>
         <md-list-item
-          v-for="visited in company[0].who_visited" v-bind:key="visited">
+          v-for="visited in company.who_visited" v-bind:key="visited">
           <router-link to="/">{{ visited }}</router-link>
         </md-list-item>
       </md-list>
@@ -25,7 +25,7 @@
       <md-content>
         <md-card
           class=""
-          v-for="picture in company[0].pictures" v-bind:key="picture">
+          v-for="picture in company.pictures" v-bind:key="picture">
           <md-card-media-actions>
             <md-card-media>
               <img :src="picture" alt="Cover">
@@ -72,7 +72,7 @@ import { Business } from '../../models/Business';
     } 
     ).then(response => 
         response.json().then(json => {
-          this.company = json.results.filter(company => company.objectId == this.$route.params.id)
+          this.company = json.results.filter(company => company.objectId == this.$route.params.id).pop()
           console.log(json.results)
     }))
   },
