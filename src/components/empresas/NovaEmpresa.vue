@@ -132,7 +132,7 @@
   },
  }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .listas {
   display: flex;
   flex-direction: row;
