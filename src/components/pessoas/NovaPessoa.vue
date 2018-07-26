@@ -1,7 +1,9 @@
 <template>
  <div>
   <NavBar></NavBar>
-  <form novalidate class="md-layout  md-alignment-space-around-center">
+  <form novalidate 
+  @submit.prevent="sendForValidate"
+  class="md-layout  md-alignment-space-around-center">
    <md-card class="md-layout-item md-size-50 md-small-size-100">
     <md-card-header>
      <div class="md-title">Pessoas</div>
@@ -84,7 +86,8 @@
         email: null,
         selectedCompanies: []
       },
-      companies: new Business()
+      companies: new Business(),
+      sending: false,
     }
   },
   validations: {
@@ -99,6 +102,16 @@
         required
       }
     }
+  },
+  methods: {
+    sendForValidate () {
+      this.$v.$touch()
+      console.log("entrou foi aqui")
+      if (!this.$v.$invalid) {
+        console.log("entrou")
+        this.savePeople()
+      }
+    },
   },
   beforeCreate () {
     fetch('https://parseapi.back4app.com/classes/Company/', {
