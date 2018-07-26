@@ -13,8 +13,8 @@
       <md-table-row slot="md-table-row" slot-scope="{ item }" class="md-scrollbar">
         <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
         <md-table-cell md-label="Endereço" md-sort-by="address">{{ item.address }}</md-table-cell>
-        <md-table-cell md-label="Detalhes" >
-          <router-link to="/details-business">detalhes</router-link>
+        <md-table-cell md-label="Detalhes" md-sort-by="objectId" >
+          <router-link :to="'/company/'+item.objectId">detalhes</router-link>
         </md-table-cell>
       </md-table-row>
    </md-table>
@@ -43,6 +43,7 @@ export default {
     ).then(response => 
         response.json().then(json => {
           this.business = json.results
+          console.log(json.results)
     }))
   },
 
@@ -55,7 +56,6 @@ export default {
   padding: 100px 0;
   width: 60%;
   margin: 0 auto;
-
  }
   #btn {
   background-color: rgb(12, 136, 105);
