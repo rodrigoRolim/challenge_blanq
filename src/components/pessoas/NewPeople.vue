@@ -69,7 +69,10 @@
        </div>
      </div> 
     </md-card-content>
-    <md-button type="submit" class="md-primary" :disabled="sending" >Save</md-button>
+    <md-progress-bar md-mode="indeterminate" v-if="sending" />
+    <md-card-actions>
+       <md-button type="submit" class="md-primary" :disabled="sending" >Save</md-button>
+    </md-card-actions>
    </md-card>
    <md-snackbar :md-active.sync="userSaved">O {{ lastPeople }} foi salvo com sucesso!</md-snackbar>
   </form> 
@@ -199,6 +202,12 @@
 <style lang="scss" scoped>
   form {
     padding: 100px 0;
+  }
+  .md-progress-bar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
   }
 </style>
 
