@@ -35,39 +35,23 @@ export default {
    business: []
   }),
   methods: {
-    searchCompany (idCompany) {
-      return this.business.filter(bus => bus.objectId == idCompany).pop()
-    },
-    createOptions (company) {
-      const myCompany = {
-        address: company.address,
-        createdAt: company.createdAt,
-        name: company.name,
-        objectId: company.objectId,
-        phones: [company.phones[0]],
-        pictures: [company.pictures[0]],
-        updatedAt: company.updatedAt,
-        who_visited: [company.who_visited[0]],
-      }
-      console.log(myCompany)
+    createOptions () {
       const options = {
         method: 'DELETE',
-        body: JSON.stringify(myCompany),
         headers: {
          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-         "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",
-         
+         "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",  
         }
       }
       return options
     },
     deleteCompany (idCompany) {
-      const company = this.searchCompany(idCompany)
-      console.log(company)
-      const options = this.createOptions(company)
-      fetch('https://parseapi.back4app.com/classes/Company', options)
+   
+      const options = this.createOptions()
+      fetch(`https://parseapi.back4app.com/classes/Company/${idCompany}`, options)
       .then(response =>{ 
         response.json().then(json => {
+          this.business = this.business.filter(bus => bus.objectId !== idCompany)
           console.log('check it out');
           console.log(json)
         })
