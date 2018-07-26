@@ -145,7 +145,7 @@
     saveUser () {
       this.sending = true;
       this.company = this.form;
-      console.log(this.company.name)
+      console.log(this.company)
       fetch('https://parseapi.back4app.com/classes/Company/', {
         method: 'post',
         headers: {         
@@ -153,24 +153,35 @@
           "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
         },
         body: {
-          "name": this.form.name,   
-          "address": this.form.address,         
-          "phones": this.form.phones, 
-          "pictures": this.form.pictures,         
+          "name": "alo bina",   
+          "address": "onde diabo é isso?",         
+          "phones": ["asdasdsad"], 
+          "pictures": ["asdsadasd"],         
           "who_visited": ["AsPVqGwpqQ"] 
         }
       }).then(response =>{ 
           response.json().then(json => {
+            this.sending = false
+            this.clearForm()
             console.log('check it out');
             console.log(json)
           })
         })
       },
     },
-  beforeDestroy () {
-   this.company = null
-   delete this.company
-  },
+    clearForm () {
+      this.$v.$reset()
+      this.form.name = null
+      this.form.address = null
+      this.form.pictures = []
+      this.form.phones = []
+      this.phone = null
+      this.picture = null
+    },
+    beforeDestroy () {
+      this.company = null
+      delete this.company
+    },
  }
 </script>
 <style lang="scss" scoped>
