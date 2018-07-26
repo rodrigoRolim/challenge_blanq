@@ -33,7 +33,7 @@
           :disabled="sending" 
           v-model="people.lastname"
           />
-          <span class="md-error" v-if="$v.people.lastname.required">O sobrenome é necessário</span>
+          <span class="md-error" v-if="!$v.people.lastname.required">O sobrenome é necessário</span>
         </md-field>
        </div>
        <div class="md-layout-item md-large-size-50">
@@ -46,7 +46,7 @@
           :disabled="sending" 
           v-model="people.email"/>
           <span class="md-error" v-if="!$v.people.email.required">O email é necessário</span>
-          <span class="md-error" v-else-if="!$v.form.email.email">Email inválido</span>
+          <span class="md-error" v-else-if="!$v.people.email.email">Email inválido</span>
         </md-field>
        </div>
        <div class="md-layout-item md-large-size-50">
@@ -64,6 +64,7 @@
              {{ company.name }}
             </md-option>
           </md-select>
+          <span class="md-error" v-if="!$v.people.want_visit.required">Escolha as empresas</span>
         </md-field>
        </div>
      </div> 
@@ -82,7 +83,7 @@
     email
  } from 'vuelidate/lib/validators'
  export default {
-  name: 'NovaPessoa',
+  name: 'NewPeople',
   mixins: [validationMixin],
   components: {
    NavBar,
