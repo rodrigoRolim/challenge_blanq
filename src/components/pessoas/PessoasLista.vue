@@ -1,25 +1,25 @@
 <template>
-<div>
- <NavBar></NavBar>
- <div class="container-persons">
-   <md-table v-model="persons" md-card>
-      <md-table-toolbar>
-        <h1 class="md-title">Pessoas</h1>
-        <router-link to="/new-people"> 
-        <md-button class="md-raised">
-          <md-icon class="md-size-1x" >add</md-icon> nova Pessoa</md-button>
-        </router-link>
-      </md-table-toolbar>
-      <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
-        <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
-        <md-table-cell md-label="Detalhes" md-sort-by="detail">
-          <router-link to="/people">Detalhes</router-link>
-        </md-table-cell>
-      </md-table-row>
-   </md-table>
- </div>  
-</div>
+  <div>
+    <NavBar></NavBar>
+    <div class="container-persons">
+      <md-table v-model="persons" md-card md-fixed-header>
+          <md-table-toolbar>
+            <h1 class="md-title">Pessoas</h1>
+            <router-link to="/new-people"> 
+            <md-button class="md-raised">
+              <md-icon class="md-size-1x">add</md-icon> nova Pessoa</md-button>
+            </router-link>
+          </md-table-toolbar>
+          <md-table-row slot="md-table-row" slot-scope="{ item }" >
+            <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
+            <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
+            <md-table-cell md-label="Detalhes" md-sort-by="detail">
+              <router-link to="/people">Detalhes</router-link>
+            </md-table-cell>
+          </md-table-row>
+      </md-table>
+    </div>  
+  </div>
 
 </template>
 <script>
