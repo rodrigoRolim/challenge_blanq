@@ -1,7 +1,7 @@
 <template>
  <div>
   <NavBar></NavBar>
-  <form class="md-layout  md-alignment-space-around-center">
+  <form novalidate class="md-layout  md-alignment-space-around-center">
    <md-card class="md-layout-item md-size-50 md-small-size-100">
     <md-card-header>
      <div class="md-title">Pessoas</div>
@@ -13,7 +13,8 @@
          <label for="person-firstname">nome</label>
          <md-input 
           name="person-firstname" 
-          id="person-firstname"></md-input>
+          id="person-firstname"
+          ></md-input>
         </md-field>
        </div> 
        <div class="md-layout-item md-small-size-100">
@@ -58,8 +59,16 @@
 </template>
 <script>
  import NavBar from '../NavBar.vue'
+ import { validationMixin } from 'vuelidate'
+ import {
+    required,
+    email,
+    minLength,
+    maxLength
+ } from 'vuelidate/lib/validators'
  export default {
   name: 'NovaPessoa',
+  mixins: [validationMixin],
   components: {
    NavBar,
   },
@@ -82,10 +91,14 @@
           this.companies = json.results
     }))
   },
-
+  sendSave () {
+    
+  }
  }
 </script>
-<style>
-
+<style lang="scss" scoped>
+  form {
+    padding: 100px 0;
+  }
 </style>
 
