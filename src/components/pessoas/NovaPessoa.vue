@@ -16,7 +16,7 @@
          <md-input 
           name="person-firstname" 
           id="person-firstname"
-          v-model="people.firstName"
+          v-model="people.firstname"
           ></md-input>
         </md-field>
        </div> 
@@ -26,7 +26,7 @@
          <md-input 
           name="person-lastname" 
           id="person-lastname"
-          v-model="lastName"
+          v-model="lastname"
           ></md-input>
         </md-field>
        </div>
@@ -47,7 +47,7 @@
           id="companies"
           md-dense
           multiple
-          v-model="selectedCompanies"
+          v-model="want_visit"
          >
            <md-option :value="company.name" v-for="company in companies" v-bind:key="company.id">
              {{ company.name }}
@@ -81,10 +81,10 @@
   data: () => {
     return {
       people: {
-        firstName: null,
-        lastName: null,
+        firstname: null,
+        lastname: null,
         email: null,
-        selectedCompanies: []
+        want_visit: []
       },
       companies: new Business(),
       sending: false,
@@ -92,13 +92,16 @@
   },
   validations: {
     people: {
-      firstName: {
+      firstname: {
         required
       },
-      lastName: {
+      lastname: {
         required
       },
       email: {
+        required
+      },
+      want_visit: {
         required
       }
     }
@@ -114,8 +117,8 @@
     },
     createOptions (people) {
       const peopleHeader = {
-        firstname: people.firstName,
-        lastname: people.lastName,
+        firstname: people.firstname,
+        lastname: people.lastname,
         email: people.email,
         want_visit: people.want_visit
       }
@@ -141,7 +144,14 @@
             console.log(json)
           })
         })
-      },
+    },
+    clearForm () {
+        this.$v.$reset()
+        this.people.firstname = null
+        this.people.lastname = null
+        this.people.email = null
+        this.people.want_visit = []
+    },
   },
   beforeCreate () {
     fetch('https://parseapi.back4app.com/classes/Company/', {
