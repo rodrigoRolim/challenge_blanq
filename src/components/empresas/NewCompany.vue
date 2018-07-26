@@ -143,7 +143,7 @@
       console.log("entrou foi aqui")
       if (!this.$v.$invalid) {
         console.log("entrou")
-        this.saveUser()
+        this.saveCompany()
       }
     },
     createOptions (company) {
@@ -164,7 +164,7 @@
       }
       return options
     },
-    saveUser () {
+    saveCompany () {
       this.sending = true;
       this.company = this.form;
       const options = this.createOptions(this.company)
