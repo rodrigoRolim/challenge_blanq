@@ -1,7 +1,8 @@
 <template>
  <div>
   <NavBar></NavBar>
- <form novalidate class="md-layout  md-alignment-space-around-center" @submit="sendSave">
+ <form novalidate class="md-layout  md-alignment-space-around-center"
+  @submit.prevent="sendForValidate">
   <md-card class="md-layout-item md-size-50 md-small-size-100">
    <md-card-header>
     <div class="md-title">Empresas</div>
@@ -10,28 +11,33 @@
     <div class="md-layout md-gutter">
       <div class="md-layout-item md-small-size-100">
        <md-field>
-        <label for="">Nome da empresa</label>
+        <label for="company-name">Nome da empresa</label>
         <md-input 
-         name="business-name" 
-         id="business-name"
-         v-model="form.name"></md-input>
+         name="company-name" 
+         id="company-name"
+         :disabled="sending" 
+         v-model="form.name"/>
+         <span class="md-error" v-if="!$v.form.name.required">The first name is required</span>
        </md-field>
       </div> 
      <div class="md-layout-item md-large-size-100">
       <md-field>
        <label for="">Endereço da empresa</label>
        <md-input 
-        name="business-address" 
-        id="business-address"
-        v-model="form.address"></md-input>
+        name="company-address" 
+        id="company-address"
+        :disabled="sending" 
+        v-model="form.address"/>
       </md-field>
      </div>
      <div class="md-layout-item md-small-size-100">
       <md-field>
        <label for="">Adicione telefones</label>
        <md-input 
-        name="business-phones" 
-        id="business-phones" v-model="phone"></md-input>
+        name="company-phones" 
+        id="company-phones" 
+        :disabled="sending" 
+        v-model="phone"/>
         <md-button v-on:click="addPhone" class="md-fab md-mini md-primary">
           <md-icon>add</md-icon>
         </md-button>
@@ -41,8 +47,10 @@
       <md-field>
        <label for="">Adicione imagens</label>
        <md-input 
-        name="business-images" 
-        id="business-images" v-model="picture"></md-input>
+        name="company-images" 
+        id="company-images" 
+        :disabled="sending" 
+        v-model="picture"/>
         <md-button v-on:click="addPictures" class="md-fab md-mini md-primary">
          <md-icon>add</md-icon>
         </md-button>
@@ -62,7 +70,7 @@
       </md-list-item>
      </md-list>
    </div> 
-   <md-button v-on:click="sendSave">Save</md-button>
+   <md-button type="submit" :disabled="sending">Save</md-button>
   </md-card>
  </form> 
  </div>
@@ -70,9 +78,16 @@
 <script>
  import NavBar from '../NavBar.vue'
  import { Business } from '../../models/Business'
-
+ import { validationMixin } from 'vuelidate'
+ import {
+    required,
+    email,
+    minLength,
+    maxLength
+ } from 'vuelidate/lib/validators'
  export default {
   name: 'NovaEmpresa',
+  mixins: [validationMixin],
   components: {
    NavBar
   },
@@ -86,8 +101,25 @@
     },
     phone: '',
     picture: '',
-    business: new Business()
+    company: new Business(),
+    sending: false,
    }
+  },
+  validations: {
+    form: {
+      name: {
+        required
+      },
+      address: {
+        required
+      }
+    },
+    picture: {
+      required
+    },
+    phone: {
+      required
+    }
   },
   methods: {
     addPhone () {
@@ -102,9 +134,18 @@
     removePicture (picture) {
       this.form.pictures = this.form.pictures.filter(pic => pic !== picture)
     },
-    sendSave () {
-      this.business = this.form;
-      console.log(this.business.name)
+    sendForValidate () {
+      this.$v.$touch()
+      console.log("entrou foi aqui")
+      if (!this.$v.$invalid) {
+        console.log("entrou")
+        this.saveUser()
+      }
+    },
+    saveUser () {
+      this.sending = true;
+      this.company = this.form;
+      console.log(this.company.name)
       fetch('https://parseapi.back4app.com/classes/Company/', {
         method: 'post',
         headers: {         
@@ -112,10 +153,10 @@
           "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
         },
         body: {
-          "name": "Company Test",   
-          "address":"Avenida Ayrton Senna da Silva, 200",         
-          "phones":["(43) 9999-9999"], 
-          "pictures": ["https://cdn.pixabay.com/photo/2018/06/30/09/29/music3507317_960_720.jpg"],         
+          "name": this.form.name,   
+          "address": this.form.address,         
+          "phones": this.form.phones, 
+          "pictures": this.form.pictures,         
           "who_visited": ["AsPVqGwpqQ"] 
         }
       }).then(response =>{ 
@@ -127,8 +168,8 @@
       },
     },
   beforeDestroy () {
-   this.business = null
-   delete this.business
+   this.company = null
+   delete this.company
   },
  }
 </script>
