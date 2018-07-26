@@ -1,15 +1,16 @@
 import App from './App.vue'
-import Empresas from './components/empresas/EmpresaLista.vue'
-import NovaEmpresa from './components/empresas/NovaEmpresa.vue'
-import Pessoas from './components/pessoas/PessoasLista.vue'
-import NovaPessoa from './components/pessoas/NovaPessoa.vue'
+import Companies from './components/empresas/EmpresaLista.vue'
+import NewCompany from './components/empresas/NovaEmpresa.vue'
+import People from './components/pessoas/PessoasLista.vue'
+import NewPeople from './components/pessoas/NovaPessoa.vue'
 import CompanyDetail from './components/empresas/CompanyDetails.vue'
 
 export default [
   { path: '/', redirect: '/company' },
-  { path: '/company', component: Empresas },
-  { path: '/new-company', component: NovaEmpresa },
-  { path: '/people', component: Pessoas },
-  { path: '/new-people', component: NovaPessoa },
-  { path: '/company/:id', component: CompanyDetail }
+  { path: '/company', name: 'company',  component: Companies },
+  { path: '/new-company', name: 'newcompany', component: NewCompany },
+  { path: '/people', name: 'people', component: People },
+  { path: '/new-people', name: 'newpeople', component: NewPeople },
+  { path: '/company/:id', name: 'companydetail', component: CompanyDetail },
+  { path: '*', component: Companies}
 ]
