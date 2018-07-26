@@ -10,24 +10,25 @@
    <md-card-content>
     <div class="md-layout md-gutter">
       <div class="md-layout-item md-small-size-100">
-       <md-field>
+       <md-field :class="getValidationClass('name')">
         <label for="company-name">Nome da empresa</label>
         <md-input 
          name="company-name" 
          id="company-name"
          :disabled="sending" 
          v-model="form.name"/>
-         <span class="md-error" v-if="!$v.form.name.required">The first name is required</span>
+         <span class="md-error" v-if="!$v.form.name.required">o nome é necessário</span>
        </md-field>
       </div> 
      <div class="md-layout-item md-large-size-100">
-      <md-field>
+      <md-field :class="getValidationClass('address')">
        <label for="">Endereço da empresa</label>
        <md-input 
         name="company-address" 
         id="company-address"
         :disabled="sending" 
         v-model="form.address"/>
+        <span class="md-error" v-if="!$v.form.address.required">O endereço é necessário</span>
       </md-field>
      </div>
      <div class="md-layout-item md-small-size-100">
@@ -44,7 +45,7 @@
       </md-field>
      </div>
      <div class="md-layout-item md-small-size-100">
-      <md-field>
+      <md-field >
        <label for="">Adicione imagens</label>
        <md-input 
         name="company-images" 
@@ -58,6 +59,7 @@
      </div>
     </div> 
    </md-card-content>
+   <md-progress-bar md-mode="indeterminate" v-if="sending" />
    <div class="listas">
      <md-list class="lista-phones">
       <md-list-item v-for="phone in phones" v-bind:key="phone">
@@ -70,8 +72,12 @@
       </md-list-item>
      </md-list>
    </div> 
-   <md-button type="submit" :disabled="sending">Save</md-button>
+   <md-card-actions>
+      <md-button type="submit" class="md-primary" :disabled="sending">Save</md-button>
+   </md-card-actions>
+  
   </md-card>
+  <md-snackbar :md-active.sync="companySaved">O {{ lastCompany }} foi salvo com sucesso!</md-snackbar>
  </form> 
  </div>
 </template>
@@ -81,9 +87,6 @@
  import { validationMixin } from 'vuelidate'
  import {
     required,
-    email,
-    minLength,
-    maxLength
  } from 'vuelidate/lib/validators'
  export default {
   name: 'NewCompany',
@@ -99,6 +102,8 @@
       pictures: [],
       phones: [],
     },
+    lastCompany: null,
+    companySaved: false,
     phones: [],
     pictures: [],
     phone: '',
@@ -138,6 +143,15 @@
     removePicture (picture) {
       this.form.pictures = this.form.pictures.filter(pic => pic !== picture)
     },
+    getValidationClass (fieldName) {
+      const field = this.$v.form[fieldName]
+
+      if (field) {
+        return {
+          'md-invalid': field.$invalid && field.$dirty
+        }
+      }
+    },
     sendForValidate () {
       this.$v.$touch()
       console.log("entrou foi aqui")
@@ -164,6 +178,11 @@
       }
       return options
     },
+    confirmeLastCompany () {
+       this.sending = false
+       this.lastCompany = this.form.name
+       this.companySaved = true
+    },
     saveCompany () {
       this.sending = true;
       this.company = this.form;
@@ -171,10 +190,8 @@
       fetch('https://parseapi.back4app.com/classes/Company', options)
       .then(response => { 
           response.json().then(json => {
-            this.sending = false
+            this.confirmeLastCompany()
             this.clearForm()
-            console.log('check it out');
-            console.log(json)
           })
         })
       },
@@ -209,5 +226,11 @@
 }
 form {
  padding: 100px 0;
+}
+.md-progress-bar {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
 }
 </style>
