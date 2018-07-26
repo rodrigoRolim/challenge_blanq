@@ -6,12 +6,9 @@
 </template>
 
 <script>
-import EmpresaLista from './components/empresas/EmpresaLista.vue'
+
 export default {
   name: 'app',
-  components: {
-   EmpresaLista
-  },
   data () {
     return {
       message: 'Hello, Vue!'
