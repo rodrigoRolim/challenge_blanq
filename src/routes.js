@@ -2,7 +2,7 @@ import App from './App.vue'
 import Companies from './components/empresas/CompanyList.vue'
 import NewCompany from './components/empresas/NewCompany.vue'
 import People from './components/pessoas/PessoasLista.vue'
-import NewPeople from './components/pessoas/NovaPessoa.vue'
+import NewPeople from './components/pessoas/NewPeople.vue'
 import CompanyDetail from './components/empresas/CompanyDetails.vue'
 
 export default [
