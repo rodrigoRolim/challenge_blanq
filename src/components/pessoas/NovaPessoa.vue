@@ -112,6 +112,19 @@
         this.savePeople()
       }
     },
+    savePeople () {
+      this.sending = true;
+      const options = this.createOptions(this.people)
+      fetch('https://parseapi.back4app.com/classes/Company', options)
+      .then(response => { 
+          response.json().then(json => {
+            this.sending = false
+            this.clearForm()
+            console.log('check it out');
+            console.log(json)
+          })
+        })
+      },
   },
   beforeCreate () {
     fetch('https://parseapi.back4app.com/classes/Company/', {
