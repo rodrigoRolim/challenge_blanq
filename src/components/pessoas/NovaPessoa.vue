@@ -11,43 +11,54 @@
     <md-card-content>
      <div class="md-layout md-gutter">
        <div class="md-layout-item md-small-size-100">
-        <md-field>
+        <md-field :class="getValidationClass('firstname')">
          <label for="person-firstname">nome</label>
          <md-input 
           name="person-firstname" 
           id="person-firstname"
+          :disabled="sending" 
           v-model="people.firstname"
-          ></md-input>
+          />
+          <span class="md-error" v-if="!$v.people.firstname.required">O nome é necessário</span>
         </md-field>
        </div> 
        <div class="md-layout-item md-small-size-100">
-        <md-field>
+        <md-field :class="getValidationClass('lastname')">
          <label for="person-lastname">sobrenome</label>
          <md-input 
+          autocomplete="given-name"
+          type="text"
           name="person-lastname" 
           id="person-lastname"
-          v-model="lastname"
-          ></md-input>
+          :disabled="sending" 
+          v-model="people.lastname"
+          />
+          <span class="md-error" v-if="$v.people.lastname.required">O sobrenome é necessário</span>
         </md-field>
        </div>
        <div class="md-layout-item md-large-size-50">
-        <md-field>
+        <md-field :class="getValidationClass('email')">
          <label for="person-email">email</label>
-         <md-input 
+         <md-input
+         type="email" 
           name="person-email" 
           id="person-email"
-          v-model="people.email"></md-input>
+          :disabled="sending" 
+          v-model="people.email"/>
+          <span class="md-error" v-if="!$v.people.email.required">O email é necessário</span>
+          <span class="md-error" v-else-if="!$v.form.email.email">Email inválido</span>
         </md-field>
        </div>
        <div class="md-layout-item md-large-size-50">
-        <md-field>
+        <md-field :class="getValidationClass('want_visit')">
          <label for="companies">lista de empresas</label>
          <md-select 
           name="companies" 
           id="companies"
           md-dense
+          :disabled="sending" 
           multiple
-          v-model="want_visit"
+          v-model="people.want_visit"
          >
            <md-option :value="company.name" v-for="company in companies" v-bind:key="company.id">
              {{ company.name }}
@@ -57,20 +68,18 @@
        </div>
      </div> 
     </md-card-content>
-    <md-button>Save</md-button>
+    <md-button type="submit" class="md-primary" :disabled="sending" >Save</md-button>
    </md-card>
+   <md-snackbar :md-active.sync="userSaved">O {{ lastPeople }} foi salvo com sucesso!</md-snackbar>
   </form> 
  </div>
 </template>
 <script>
  import NavBar from '../NavBar.vue'
  import { validationMixin } from 'vuelidate'
- import Company from '../../models/Business'
  import {
     required,
-    email,
-    minLength,
-    maxLength
+    email
  } from 'vuelidate/lib/validators'
  export default {
   name: 'NovaPessoa',
@@ -78,18 +87,20 @@
   components: {
    NavBar,
   },
-  data: () => {
-    return {
-      people: {
-        firstname: null,
-        lastname: null,
-        email: null,
-        want_visit: []
-      },
-      companies: new Business(),
-      sending: false,
-    }
-  },
+  data: () => ({
+   
+    people: {
+      firstname: null,
+      lastname: null,
+      email: null,
+      want_visit: []
+    },
+    userSaved: false,
+    companies: [],
+    sending: false,
+    lastPeople: null
+
+  }),
   validations: {
     people: {
       firstname: {
@@ -99,6 +110,7 @@
         required
       },
       email: {
+        email,
         required
       },
       want_visit: {
@@ -107,6 +119,15 @@
     }
   },
   methods: {
+    getValidationClass (fieldName) {
+        const field = this.$v.people[fieldName]
+
+        if (field) {
+          return {
+            'md-invalid': field.$invalid && field.$dirty
+          }
+        }
+    },
     sendForValidate () {
       this.$v.$touch()
       console.log("entrou foi aqui")
@@ -132,16 +153,19 @@
       }
       return options
     },
+    confirmeLastPeople () {
+       this.sending = false
+       this.lastPeople = this.people.firstname.concat(' ').concat(this.people.lastname)
+       this.userSaved = true
+    },
     savePeople () {
       this.sending = true;
       const options = this.createOptions(this.people)
-      fetch('https://parseapi.back4app.com/classes/Company', options)
+      fetch('https://parseapi.back4app.com/classes/People', options)
       .then(response => { 
           response.json().then(json => {
-            this.sending = false
+            this.confirmeLastPeople()
             this.clearForm()
-            console.log('check it out');
-            console.log(json)
           })
         })
     },
@@ -168,7 +192,7 @@
   },
   sendSave () {
     
-  }
+  },
  }
 </script>
 <style lang="scss" scoped>
