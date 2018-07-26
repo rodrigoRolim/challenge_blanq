@@ -7,9 +7,9 @@ import CompanyDetail from './components/empresas/CompanyDetails.vue'
 
 export default [
   { path: '/', redirect: '/company' },
-  { path: '/company', name: 'company',  component: Companies },
+  { path: '/companies', name: 'company',  component: Companies },
   { path: '/new-company', name: 'newcompany', component: NewCompany },
-  { path: '/people', name: 'people', component: People },
+  { path: '/peoples', name: 'people', component: People },
   { path: '/new-people', name: 'newpeople', component: NewPeople },
   { path: '/company/:id', name: 'companydetail', component: CompanyDetail },
   { path: '*', component: Companies}
