@@ -1,44 +1,51 @@
 <template>
  <div>
   <NavBar></NavBar> 
-  <div class="viewport">
+  <div class="md-alignment-center">
     <md-toolbar :md-elevation="1" class="md-layout md-alignment-center">
       <span class="md-title">Informações</span>
     </md-toolbar>
    <md-content>
-     <md-list>
+     <md-list  class="md-layout md-alignment-center">
        <md-list-item>Nome: {{ company[0].name }}</md-list-item>
        <md-list-item>Endereço: {{ company[0].address }}</md-list-item>
      </md-list>
-     <md-list>
+     <md-list  class="md-layout md-alignment-center">
        <md-subheader class="md-layout md-alignment-center">Visitantes: </md-subheader>
-       <md-list-item v-for="visited in company[0].who_visited" v-bind:key="visited">
-        {{ visited }}
+       <md-list-item
+        v-for="visited in company[0].who_visited" v-bind:key="visited">
+        <router-link to="/">{{ visited }}</router-link>
        </md-list-item>
      </md-list>
    </md-content>
   </div>
   <div class="container-pictures">
-    <md-card
-      class=""
-      v-for="picture in company[0].pictures" v-bind:key="picture">
-      <md-card-media-actions>
-        <md-card-media>
-          <img :src="picture" alt="Cover">
-        </md-card-media>
-        <md-card-actions>
-          <md-button class="md-icon-button">
-            <md-icon>favorite</md-icon>
-          </md-button>
-          <md-button class="md-icon-button">
-            <md-icon>bookmark</md-icon>
-          </md-button>
-          <md-button class="md-icon-button">
-            <md-icon>share</md-icon>
-          </md-button>
-        </md-card-actions>
-      </md-card-media-actions>
-    </md-card>
+    <md-toolbar :md-elevation="1" class="md-layout md-alignment-center">
+      <span class="md-title">Imagens</span>
+    </md-toolbar>
+    <md-content>
+      <md-card
+        class=""
+        v-for="picture in company[0].pictures" v-bind:key="picture">
+        <md-card-media-actions>
+          <md-card-media>
+            <img :src="picture" alt="Cover">
+          </md-card-media>
+          <md-card-actions>
+            <md-button class="md-icon-button">
+              <md-icon>favorite</md-icon>
+            </md-button>
+            <md-button class="md-icon-button">
+              <md-icon>bookmark</md-icon>
+            </md-button>
+            <md-button class="md-icon-button">
+              <md-icon>share</md-icon>
+            </md-button>
+          </md-card-actions>
+        </md-card-media-actions>
+      </md-card>
+    </md-content>
+    
   </div>
  </div>
 </template>
@@ -65,22 +72,17 @@ import { Business } from '../../models/Business';
     } 
     ).then(response => 
         response.json().then(json => {
-          this.company = json.results
+          this.company = json.results.filter(company => company.objectId == this.$route.params.id)
           console.log(json.results)
     }))
   },
-  computed: {
-   get: function () {
-    this.company = this.company.filter(company => company.objectId == this.$route.params.id)
-   }
-  }
  }
 </script>
 <style lang="scss" scoped>
   .container-pictures {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
   }
    .md-card {
     width: 320px;
