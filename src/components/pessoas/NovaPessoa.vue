@@ -14,6 +14,7 @@
          <md-input 
           name="person-firstname" 
           id="person-firstname"
+          v-model="people.firstName"
           ></md-input>
         </md-field>
        </div> 
@@ -22,7 +23,9 @@
          <label for="person-lastname">sobrenome</label>
          <md-input 
           name="person-lastname" 
-          id="person-lastname"></md-input>
+          id="person-lastname"
+          v-model="lastName"
+          ></md-input>
         </md-field>
        </div>
        <div class="md-layout-item md-large-size-50">
@@ -30,7 +33,8 @@
          <label for="person-email">email</label>
          <md-input 
           name="person-email" 
-          id="person-email"></md-input>
+          id="person-email"
+          v-model="people.email"></md-input>
         </md-field>
       
        </div>
