@@ -11,7 +11,8 @@
             </router-link>
           </md-table-toolbar>
           <md-table-row slot="md-table-row" slot-scope="{ item }" >
-            <md-table-cell md-label="Nome" md-sort-by="name">{{ item.name }}</md-table-cell>
+            <md-table-cell md-label="Nome" md-sort-by="firstname lastname">
+              {{ item.firstname }} {{item.lastname}}</md-table-cell>
             <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
             <md-table-cell md-label="Detalhes" md-sort-by="detail">
               <router-link to="/people">Detalhes</router-link>
@@ -43,6 +44,7 @@ export default {
     ).then(response => 
         response.json().then(json => {
           this.persons = json.results
+          console.log(this.persons)
     }))
   },
 }
