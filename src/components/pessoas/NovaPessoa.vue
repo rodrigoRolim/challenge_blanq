@@ -36,7 +36,6 @@
           id="person-email"
           v-model="people.email"></md-input>
         </md-field>
-      
        </div>
        <div class="md-layout-item md-large-size-50">
         <md-field>
@@ -64,6 +63,7 @@
 <script>
  import NavBar from '../NavBar.vue'
  import { validationMixin } from 'vuelidate'
+ import Company from '../../models/Business'
  import {
     required,
     email,
@@ -84,7 +84,20 @@
         email: null,
         selectedCompanies: []
       },
-      companies: []
+      companies: new Business()
+    }
+  },
+  validations: {
+    people: {
+      firstName: {
+        required
+      },
+      lastName: {
+        required
+      },
+      email: {
+        required
+      }
     }
   },
   beforeCreate () {
