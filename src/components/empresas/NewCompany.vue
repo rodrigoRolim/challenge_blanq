@@ -59,13 +59,13 @@
     </div> 
    </md-card-content>
    <div class="listas">
-     <md-list class="lista-left">
-      <md-list-item v-for="phone in form.phones" v-bind:key="phone">
+     <md-list class="lista-phones">
+      <md-list-item v-for="phone in phones" v-bind:key="phone">
         {{ phone }} <span v-on:click="removePhone(phone)"><md-icon >delete_forever</md-icon></span>
         </md-list-item>
      </md-list>
-     <md-list class="lista-right">
-      <md-list-item v-for="picture in form.pictures" v-bind:key="picture">
+     <md-list class="lista-pictures">
+      <md-list-item v-for="picture in pictures" v-bind:key="picture">
         {{ picture }} <span v-on:click="removePicture(picture)"><md-icon >delete_forever</md-icon></span>
       </md-list-item>
      </md-list>
@@ -86,7 +86,7 @@
     maxLength
  } from 'vuelidate/lib/validators'
  export default {
-  name: 'NovaEmpresa',
+  name: 'NewCompany',
   mixins: [validationMixin],
   components: {
    NavBar
@@ -99,6 +99,8 @@
       pictures: [],
       phones: [],
     },
+    phones: [],
+    pictures: [],
     phone: '',
     picture: '',
     company: new Business(),
@@ -123,10 +125,12 @@
   },
   methods: {
     addPhone () {
-      this.form.phones.push(this.phone);
+      this.form.phones.push(this.phone)
+      this.phones.push(this.phone)
     },
     addPictures () {
-      this.form.pictures.push(this.picture);
+      this.form.pictures.push(this.picture)
+      this.pictures.push(this.picture.slice(0,30).concat(' ...'))
     },
     removePhone (phone) {
       this.form.phones = this.form.phones.filter(ph => ph !== phone)
@@ -180,6 +184,8 @@
         this.form.address = null
         this.form.pictures = []
         this.form.phones = []
+        this.phones = []
+        this.pictures = []
         this.phone = null
         this.picture = null
       },
@@ -195,10 +201,10 @@
   display: flex;
   flex-direction: row;
 }
-.lista-right {
+.lista-pictures {
   width: 50%;
 }
-.lista-left {
+.lista-phones {
   width: 50%;
 }
 form {
