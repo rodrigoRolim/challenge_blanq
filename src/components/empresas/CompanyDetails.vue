@@ -2,11 +2,11 @@
 <div>
     <NavBar></NavBar> 
     <div class="container-details">
-    <div class="viewport ">
-      <md-toolbar :md-elevation="1" >
+    <div class="md-layout">
+      <md-toolbar :md-elevation="1">
         <span class="md-title">Informações</span>
       </md-toolbar>
-    <md-content>
+    <md-content class="md-layout">
       <md-list  >
         <md-list-item>Nome: {{ company.name }}</md-list-item>
         <md-list-item>Endereço: {{ company.address }}</md-list-item>
@@ -22,9 +22,8 @@
     </md-content>
     </div>
     <div class="container-pictures">
-      <md-content>
+      <md-content class="md-layout md-alignment-center">
         <md-card
-          class=""
           v-for="picture in company.pictures" v-bind:key="picture">
           <md-card-media-actions>
             <md-card-media>
@@ -81,7 +80,7 @@ import { Business } from '../../models/Business';
 <style lang="scss" scoped>
   .container-details {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
   }
   .container-pictures {
     display: flex;
