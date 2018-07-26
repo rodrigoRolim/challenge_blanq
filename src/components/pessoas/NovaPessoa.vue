@@ -112,6 +112,23 @@
         this.savePeople()
       }
     },
+    createOptions (people) {
+      const peopleHeader = {
+        firstname: people.firstName,
+        lastname: people.lastName,
+        email: people.email,
+        want_visit: people.want_visit
+      }
+      const options = {
+        method: 'POST',
+        body: JSON.stringify(peopleHeader),
+        headers: {
+          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+          "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",
+        }
+      }
+      return options
+    },
     savePeople () {
       this.sending = true;
       const options = this.createOptions(this.people)
