@@ -74,8 +74,13 @@
   },
   data: () => {
     return {
-      companies: [],
-      selectedCompanies: []
+      people: {
+        firstName: null,
+        lastName: null,
+        email: null,
+        selectedCompanies: []
+      },
+      companies: []
     }
   },
   beforeCreate () {
