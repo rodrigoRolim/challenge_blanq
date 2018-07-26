@@ -142,24 +142,30 @@
         this.saveUser()
       }
     },
+    createOptions (company) {
+      const myCompany = {
+        name: company.name,
+        address: company.address,
+        phones: company.phones,
+        pictures: company.pictures,
+        who_visited: ["asdadasda"]
+      }
+      const options = {
+        method: 'POST',
+        body: JSON.stringify(myCompany),
+        headers: {
+         "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+         "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",
+        }
+      }
+      return options
+    },
     saveUser () {
       this.sending = true;
       this.company = this.form;
-      console.log(this.company)
-      fetch('https://parseapi.back4app.com/classes/Company/', {
-        method: 'post',
-        headers: {         
-          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-          "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-        },
-        body: {
-          "name": "alo bina",   
-          "address": "onde diabo é isso?",         
-          "phones": ["asdasdsad"], 
-          "pictures": ["asdsadasd"],         
-          "who_visited": ["AsPVqGwpqQ"] 
-        }
-      }).then(response =>{ 
+      const options = this.createOptions(this.company)
+      fetch('https://parseapi.back4app.com/classes/Company', options)
+      .then(response => { 
           response.json().then(json => {
             this.sending = false
             this.clearForm()
@@ -168,15 +174,15 @@
           })
         })
       },
-    },
-    clearForm () {
-      this.$v.$reset()
-      this.form.name = null
-      this.form.address = null
-      this.form.pictures = []
-      this.form.phones = []
-      this.phone = null
-      this.picture = null
+      clearForm () {
+        this.$v.$reset()
+        this.form.name = null
+        this.form.address = null
+        this.form.pictures = []
+        this.form.phones = []
+        this.phone = null
+        this.picture = null
+      },
     },
     beforeDestroy () {
       this.company = null
