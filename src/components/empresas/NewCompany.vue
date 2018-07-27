@@ -56,10 +56,24 @@
          <md-icon>add</md-icon>
         </md-button>
       </md-field>
+      <md-field>
+        <label for="">Visitantes</label>
+        <md-select
+         name="company-visits"
+         id="company-visits"
+         :disabled="sending"
+         multiple
+         v-model="form.visits"
+        >
+          <md-option :value="visit" v-for="visit in peoples" v-bind:key="visit">
+            {{ visit.firstname }} {{ visit.lastname }}</md-option>
+        </md-select>
+      </md-field>
      </div>
     </div> 
    </md-card-content>
    <md-progress-bar md-mode="indeterminate" v-if="sending" />
+   <md-divider></md-divider>
    <div class="listas">
      <md-list class="lista-phones">
       <md-list-item v-for="phone in phones" v-bind:key="phone">
@@ -75,7 +89,6 @@
    <md-card-actions>
       <md-button type="submit" class="md-primary" :disabled="sending">Save</md-button>
    </md-card-actions>
-  
   </md-card>
   <md-snackbar :md-active.sync="companySaved">O {{ lastCompany }} foi salvo com sucesso!</md-snackbar>
  </form> 
@@ -99,9 +112,11 @@
     form: {
       name: null,
       address: null,
+      visits: [],
       pictures: [],
       phones: [],
     },
+    peoples: [],
     lastCompany: null,
     companySaved: false,
     phones: [],
@@ -119,6 +134,9 @@
       },
       address: {
         required
+      },
+      visits: {
+        required
       }
     },
     picture: {
@@ -127,6 +145,19 @@
     phone: {
       required
     }
+  },
+  beforeCreate () {
+    fetch('https://parseapi.back4app.com/classes/People/', {
+      method: 'get',
+      headers: {         
+        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+      },
+    } 
+    ).then(response => 
+        response.json().then(json => {
+          this.peoples = json.results
+    }))
   },
   methods: {
     addPhone () {
@@ -139,13 +170,14 @@
     },
     removePhone (phone) {
       this.form.phones = this.form.phones.filter(ph => ph !== phone)
+      this.phones = this.phones.filter(ph => ph !== phone)
     },
     removePicture (picture) {
       this.form.pictures = this.form.pictures.filter(pic => pic !== picture)
+      this.pictures =  this.pictures.filter(pic => pic !== picture)
     },
     getValidationClass (fieldName) {
       const field = this.$v.form[fieldName]
-
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty
@@ -232,5 +264,8 @@ form {
   top: 0;
   right: 0;
   left: 0;
+}
+.md-icon {
+  cursor: pointer;
 }
 </style>
