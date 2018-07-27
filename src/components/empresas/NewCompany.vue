@@ -106,8 +106,8 @@
     companySaved: false,
     phones: [],
     pictures: [],
-    phone: '',
-    picture: '',
+    phone: null,
+    picture: null,
     company: new Business(),
     sending: false,
    }
