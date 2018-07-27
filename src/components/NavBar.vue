@@ -3,10 +3,10 @@
    <md-toolbar class="md-primary">
      <h3 class="md-title">Challenge Blanq</h3>
      <div class="btn-nav">
-       <router-link to="/company"> 
+       <router-link to="/companies"> 
         <md-button class="md-raised" id="btn-bus">Empresas</md-button>
       </router-link>
-      <router-link to="/people"> 
+      <router-link to="/peoples"> 
         <md-button class="md-raised">Pessoas</md-button>
       </router-link>
      </div>
