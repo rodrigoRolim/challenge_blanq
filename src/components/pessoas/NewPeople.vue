@@ -1,6 +1,6 @@
 <template>
  <div>
-  <NavBar></NavBar>
+  <nav-bar></nav-bar>
   <form novalidate 
   @submit.prevent="sendForValidate"
   class="md-layout  md-alignment-space-around-center">
@@ -49,22 +49,21 @@
           <span class="md-error" v-else-if="!$v.people.email.email">Email inválido</span>
         </md-field>
        </div>
-       <div class="md-layout-item md-large-size-50">
-        <md-field :class="getValidationClass('want_visit')">
+       <div class="md-layout-item md-large-size-50" >
+         <!-- <company-visit v-bind:company-list="companies"></company-visit> -->
+        <md-field>
          <label for="companies">lista de empresas</label>
          <md-select 
           name="companies" 
           id="companies"
           md-dense
-          :disabled="sending" 
           multiple
           v-model="people.want_visit"
          >
-           <md-option :value="company.name" v-for="company in companies" v-bind:key="company.id">
+           <md-option :value="company.objectId" v-for="company in companies" v-bind:key="company.id">
              {{ company.name }}
             </md-option>
-          </md-select>
-          <span class="md-error" v-if="!$v.people.want_visit.required">Escolha as empresas</span>
+          </md-select> 
         </md-field>
        </div>
      </div> 
@@ -94,6 +93,7 @@
   data: () => ({
    
     people: {
+      id: null,
       firstname: null,
       lastname: null,
       email: null,
@@ -116,9 +116,6 @@
       email: {
         email,
         required
-      },
-      want_visit: {
-        required
       }
     }
   },
@@ -140,16 +137,28 @@
         this.savePeople()
       }
     },
-    createOptions (people) {
-      const peopleHeader = {
+    requestMethod (params) {
+      return params !== undefined ? 'PUT': 'POST'
+    },
+    requestBody (people) {
+       const peopleHeader = {
+        objectId: this.$route.params.id,
         firstname: people.firstname,
         lastname: people.lastname,
         email: people.email,
         want_visit: people.want_visit
       }
+      return peopleHeader
+    },
+    requestUrl (id) {
+      return id !== undefined ? 
+        `https://parseapi.back4app.com/classes/People/${id}`:
+        `https://parseapi.back4app.com/classes/People`; 
+    },
+    createOptions (people) {
       const options = {
-        method: 'POST',
-        body: JSON.stringify(peopleHeader),
+        method: this.requestMethod(this.$route.params.id),
+        body: JSON.stringify(this.requestBody(people)),
         headers: {
           "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
           "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",
@@ -164,12 +173,11 @@
     },
     savePeople () {
       this.sending = true;
-      const options = this.createOptions(this.people)
-      fetch('https://parseapi.back4app.com/classes/People', options)
+      fetch(this.requestUrl(this.$route.params.id),this.createOptions(this.people))
       .then(response => { 
           response.json().then(json => {
             this.confirmeLastPeople()
-            this.clearForm()
+            this.clearForm()      
           })
         })
     },
@@ -180,23 +188,46 @@
         this.people.email = null
         this.people.want_visit = []
     },
-  },
-  beforeCreate () {
-    fetch('https://parseapi.back4app.com/classes/Company/', {
+    searchPeople (idPeople) {
+      fetch('https://parseapi.back4app.com/classes/People/', {
+        method: 'get',
+        headers: {         
+          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+          "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+        },
+      }).then(response => 
+         response.json().then(json => {
+           const people = json.results.filter(people => people.objectId == idPeople)
+           this.buildPeople(people.pop())
+      }))
+    },
+    buildPeople (response) {
+      this.people.firstname = response.firstname
+      this.people.lastname = response.lastname
+      this.people.email = response.email
+      this.people.want_visit = response.want_visit
+    },
+    companiesListAll () {
+      fetch('https://parseapi.back4app.com/classes/Company/', {
       method: 'get',
       headers: {         
         "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
         "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-      },
-    } 
-    ).then(response => 
+      }}).then(response => 
         response.json().then(json => {
+          console.log(json.results)
           this.companies = json.results
-    }))
+      }))
+    },
   },
-  sendSave () {
-    
+
+  created () {
+    this.companiesListAll()
+    if (this.$route.params.id !== null) {
+       this.searchPeople(this.$route.params.id)
+    }
   },
+
  }
 </script>
 <style lang="scss" scoped>
@@ -210,4 +241,3 @@
     left: 0;
   }
 </style>
-
