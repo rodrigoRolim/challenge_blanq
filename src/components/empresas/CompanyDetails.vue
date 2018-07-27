@@ -15,8 +15,9 @@
       <md-list  >
         <md-subheader >Visitantes: </md-subheader>
         <md-list-item
-          v-for="visited in company.who_visited" v-bind:key="visited">
-          <router-link to="/">{{ visited }}</router-link>
+         :to="'/people/' + visited"
+         v-for="visited in company.who_visited" v-bind:key="visited">
+          {{ visited }}
         </md-list-item>
       </md-list>
     </md-content>
@@ -61,7 +62,7 @@ import { Business } from '../../models/Business';
     company: new Business()
    }
   },
-  created () {
+  beforeCreate () {
    fetch('https://parseapi.back4app.com/classes/Company/', {
       method: 'get',
       headers: {         
@@ -72,7 +73,6 @@ import { Business } from '../../models/Business';
     ).then(response => 
         response.json().then(json => {
           this.company = json.results.filter(company => company.objectId == this.$route.params.id).pop()
-          console.log(json.results)
     }))
   },
  }
