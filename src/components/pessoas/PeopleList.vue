@@ -14,7 +14,7 @@
             <md-table-cell md-label="Nome" md-sort-by="firstname lastname">
               {{ item.firstname }} {{item.lastname}}</md-table-cell>
             <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
-            <md-table-cell md-label="Detalhes" md-sort-by="detail">
+            <md-table-cell md-label="Detalhes" md-sort-by="objectId">
               <router-link :to="'/people/' + item.objectId">Detalhes</router-link>
             </md-table-cell>
             <md-table-cell md-label="Deletar" md-sort-by="objectId">
