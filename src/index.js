@@ -7,12 +7,13 @@ import VueRouter from 'vue-router'
 import routes from  './routes'
 import history from 'vue-history-api-fallback'
 import VueResource from 'vue-resource'
+import Vuex from 'vuex'
 import App from './App.vue'
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueResource)
-
+Vue.use(Vuex)
 const router = new VueRouter({
   routes
 })
