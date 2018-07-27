@@ -1,6 +1,6 @@
 <template>
 <div>
- <NavBar></NavBar>
+ <nav-bar></nav-bar>
  <div class="container-business">
    <md-table v-model="business" md-card md-sort="name" md-sort-order="asc" md-fixed-header>
       <md-table-toolbar>
@@ -20,16 +20,19 @@
           <span v-on:click="deleteCompany(item.objectId)"><md-icon id="icon-del">delete</md-icon></span>
         </md-table-cell>
       </md-table-row>
+      
    </md-table>
  </div>
 </div>
 </template>
 <script>
 import NavBar from '../NavBar.vue'
+import EmptyList from '../EmptyList.vue'
 export default {
   name: 'TableBusiness',
   components: {
    NavBar,
+   EmptyList
   },
   data: () => ({
    business: []
@@ -72,10 +75,9 @@ export default {
           console.log(json.results)
     }))
   },
-
 }
 </script>
-<style lang="scss">
+<style lang="scss" >
  .container-business {
   display: flex;
   flex-direction: column;
