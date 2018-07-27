@@ -13,6 +13,7 @@ export default [
   { path: '/new-company', name: 'newcompany', component: NewCompany },
   { path: '/peoples', name: 'people', component: People },
   { path: '/new-people', name: 'newpeople', component: NewPeople },
+  { path: '/new-people/:id', name: 'updatepeople', component: NewPeople },
   { path: '/people/:id', name: 'peopledetail', component: PeopleDetail },
   { path: '/company/:id', name: 'companydetail', component: CompanyDetail },
   { path: '*', component: NotFoundComponent}
