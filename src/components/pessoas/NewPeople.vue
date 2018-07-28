@@ -60,7 +60,10 @@
           multiple
           v-model="people.want_visit"
          >
-           <md-option :value="company.objectId" v-for="company in companies" v-bind:key="company.id">
+           <md-option :value="company.objectId" 
+            v-for="company in companies"
+            v-bind:key="company.id"
+            :selected="people.want_visit.includes(company)">
              {{ company.name }}
             </md-option>
           </md-select> 
