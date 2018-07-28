@@ -11,6 +11,7 @@ export default [
   { path: '/', redirect: '/companies' },
   { path: '/companies', name: 'company',  component: Companies },
   { path: '/new-company', name: 'newcompany', component: NewCompany },
+  { path: '/new-company/:id', name: 'updatecompany', component: NewCompany},
   { path: '/peoples', name: 'people', component: People },
   { path: '/new-people', name: 'newpeople', component: NewPeople },
   { path: '/new-people/:id', name: 'updatepeople', component: NewPeople },
