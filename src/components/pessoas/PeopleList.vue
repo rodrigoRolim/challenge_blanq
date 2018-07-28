@@ -21,6 +21,11 @@
               <span v-on:click="deletePeople(item.objectId)">
                 <md-icon id="icon-del">delete</md-icon></span>
             </md-table-cell>
+            <md-table-cell md-label="Editar" md-sort-by="objectId">
+              <router-link :to="'/new-people/'+item.objectId">
+                <md-icon id="icon-edit">edit</md-icon>
+              </router-link>
+            </md-table-cell>
           </md-table-row>
       </md-table>
     </div>  
@@ -82,6 +87,12 @@ export default {
   width: 60%;
   margin: 0 auto;
  }
-
+ #icon-del {
+   color: rgb(255, 59, 59);
+   cursor: pointer;
+ }
+ #icon-edit {
+   color: rgb(0, 119, 255)
+ }
 </style>
 
