@@ -16,8 +16,8 @@
          name="company-name" 
          id="company-name"
          :disabled="sending" 
-         v-model="form.name"/>
-         <span class="md-error" v-if="!$v.form.name.required">o nome é necessário</span>
+         v-model="company.name"/>
+         <span class="md-error" v-if="!$v.company.name.required">o nome é necessário</span>
        </md-field>
       </div> 
      <div class="md-layout-item md-large-size-100">
@@ -27,8 +27,8 @@
         name="company-address" 
         id="company-address"
         :disabled="sending" 
-        v-model="form.address"/>
-        <span class="md-error" v-if="!$v.form.address.required">O endereço é necessário</span>
+        v-model="company.address"/>
+        <span class="md-error" v-if="!$v.company.address.required">O endereço é necessário</span>
       </md-field>
      </div>
      <div class="md-layout-item md-small-size-100">
@@ -37,7 +37,6 @@
        <md-input 
         name="company-phones" 
         id="company-phones" 
-        :disabled="sending" 
         v-model="phone"/>
         <md-button v-on:click="addPhone" class="md-fab md-mini md-primary">
           <md-icon>add</md-icon>
@@ -50,7 +49,6 @@
        <md-input 
         name="company-images" 
         id="company-images" 
-        :disabled="sending" 
         v-model="picture"/>
         <md-button v-on:click="addPictures" class="md-fab md-mini md-primary">
          <md-icon>add</md-icon>
@@ -61,12 +59,16 @@
         <md-select
          name="company-visits"
          id="company-visits"
-         :disabled="sending"
          multiple
-         v-model="form.visits"
+         v-model="company.who_visited"
         >
-          <md-option :value="visit" v-for="visit in peoples" v-bind:key="visit">
-            {{ visit.firstname }} {{ visit.lastname }}</md-option>
+          <md-option 
+          :value="visit.objectId" 
+          v-for="visit in peoples"
+          v-bind:key="visit.objectId"
+          :selected="company.who_visited.includes(visit.objectId)">
+            {{ visit.firstname }} {{ visit.lastname }}
+          </md-option>
         </md-select>
       </md-field>
      </div>
@@ -76,7 +78,7 @@
    <md-divider></md-divider>
    <div class="listas">
      <md-list class="lista-phones">
-      <md-list-item v-for="phone in phones" v-bind:key="phone">
+      <md-list-item v-for="phone in company.phones" v-bind:key="phone">
         {{ phone }} <span v-on:click="removePhone(phone)"><md-icon >delete_forever</md-icon></span>
         </md-list-item>
      </md-list>
@@ -109,75 +111,53 @@
   },
   data: () => {
    return {
-    form: {
+    company: {
       name: null,
       address: null,
-      visits: [],
+      who_visited: [],
       pictures: [],
       phones: [],
     },
+    pictures: [],
     peoples: [],
     lastCompany: null,
     companySaved: false,
-    phones: [],
-    pictures: [],
     phone: null,
     picture: null,
-    company: new Business(),
     sending: false,
    }
   },
   validations: {
-    form: {
+    company: {
       name: {
         required
       },
       address: {
         required
-      },
-      visits: {
-        required
-      }
-    },
-    picture: {
-      required
-    },
-    phone: {
-      required
+      } 
     }
-  },
-  beforeCreate () {
-    fetch('https://parseapi.back4app.com/classes/People/', {
-      method: 'get',
-      headers: {         
-        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-      },
-    } 
-    ).then(response => 
-        response.json().then(json => {
-          this.peoples = json.results
-    }))
   },
   methods: {
     addPhone () {
-      this.form.phones.push(this.phone)
-      this.phones.push(this.phone)
+      this.company.phones.push(this.phone)
     },
     addPictures () {
-      this.form.pictures.push(this.picture)
-      this.pictures.push(this.picture.slice(0,30).concat(' ...'))
+      this.company.pictures.push(this.picture)
+      this.slicedPicturePath(this.picture)
+    },
+    slicedPicturePath (picture) {
+       this.pictures.push(/(?<=\/)[a-z\d]+(.jpg|.png|.gif|.jpeg)/.exec(picture)[0])
     },
     removePhone (phone) {
-      this.form.phones = this.form.phones.filter(ph => ph !== phone)
+      this.company.phones = this.form.phones.filter(ph => ph !== phone)
       this.phones = this.phones.filter(ph => ph !== phone)
     },
     removePicture (picture) {
-      this.form.pictures = this.form.pictures.filter(pic => pic !== picture)
-      this.pictures =  this.pictures.filter(pic => pic !== picture)
+      this.company.pictures = this.company.pictures.filter(pic => pic !== picture)
+      this.pictures = this.pictures.filter(pic => pic !== picture)
     },
     getValidationClass (fieldName) {
-      const field = this.$v.form[fieldName]
+      const field = this.$v.company[fieldName]
       if (field) {
         return {
           'md-invalid': field.$invalid && field.$dirty
@@ -192,34 +172,44 @@
         this.saveCompany()
       }
     },
-    createOptions (company) {
-      const myCompany = {
+     requestMethod (params) {
+      return params !== undefined ? 'PUT': 'POST'
+    },
+    requestBody (company) {
+       const companyBody = {
+        objectId: this.$route.params.id,
         name: company.name,
-        address: company.address,
-        phones: company.phones,
+        address: company.adress,
+        who_visited: company.who_visited,
         pictures: company.pictures,
-        who_visited: ["asdadasda"]
+        phones: company.phones
       }
+      return companyBody
+    },
+    requestUrl (id) {
+      return id !== undefined ? 
+        `https://parseapi.back4app.com/classes/Company/${id}`:
+        `https://parseapi.back4app.com/classes/Company`; 
+    },
+    createOptions (company) {
       const options = {
-        method: 'POST',
-        body: JSON.stringify(myCompany),
+        method: this.requestMethod(this.$route.params.id),
+        body: JSON.stringify(this.requestBody(company)),
         headers: {
-         "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-         "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",
+          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+          "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",
         }
       }
       return options
     },
     confirmeLastCompany () {
        this.sending = false
-       this.lastCompany = this.form.name
+       this.lastCompany = this.company.name
        this.companySaved = true
     },
     saveCompany () {
       this.sending = true;
-      this.company = this.form;
-      const options = this.createOptions(this.company)
-      fetch('https://parseapi.back4app.com/classes/Company', options)
+      fetch( this.requestUrl(this.$route.params.id), this.createOptions(this.company))
       .then(response => { 
           response.json().then(json => {
             this.confirmeLastCompany()
@@ -227,17 +217,63 @@
           })
         })
       },
+      searchCompany (idCompany) {
+        fetch('https://parseapi.back4app.com/classes/Company/', {
+          method: 'get',
+          headers: {         
+            "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+            "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+          },
+        }).then(response => 
+          response.json().then(json => {
+            const company = json.results.filter(company => company.objectId == idCompany)
+            this.buildCompany(company.pop())
+        }))
+     },
+     buildCompany (company) {
+       console.log(company)
+       this.company = company
+       console.log(this.company.pictures)
+       this.takePictures(company.pictures)
+       
+     },
+     takePictures (pictures) {
+ 
+       console.log(pictures)
+       pictures.forEach(picture => {
+          this.slicedPicturePath(picture)
+       });
+      
+     },
       clearForm () {
         this.$v.$reset()
-        this.form.name = null
-        this.form.address = null
-        this.form.pictures = []
-        this.form.phones = []
+        this.company.name = null
+        this.company.address = null
+        this.company.pictures = []
+        this.company.phones = []
+        this.company.who_visited = []
         this.phones = []
         this.pictures = []
         this.phone = null
         this.picture = null
       },
+       peoplesListAll () {
+          fetch('https://parseapi.back4app.com/classes/People/', {
+          method: 'get',
+          headers: {         
+            "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+            "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+          }}).then(response => 
+              response.json().then(json => {
+                this.peoples = json.results
+          }))
+       },
+    },
+    created () {
+      this.peoplesListAll()
+      if (this.$route.params.id !== undefined) {
+        this.searchCompany(this.$route.params.id)
+      }
     },
     beforeDestroy () {
       this.company = null
