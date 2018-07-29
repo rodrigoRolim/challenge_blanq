@@ -42,19 +42,8 @@ export default {
   data: () => ({
    people: []
   }),
-  beforeCreate () {
-    fetch('https://parseapi.back4app.com/classes/People/', {
-      method: 'get',
-      headers: {         
-        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-      },
-    } 
-    ).then(response => 
-        response.json().then(json => {
-          this.people = json.results
-          console.log(this.people)
-    }))
+  created () {
+   this.getPeoples
   },
   methods: {
     createOptions () {
@@ -75,6 +64,20 @@ export default {
           this.people = this.people.filter(bus => bus.objectId !== idPeople)
         })
       })
+    }
+  },
+  computed: {
+    getPeoples: function () {
+       fetch('https://parseapi.back4app.com/classes/People/', {
+      method: 'get',
+      headers: {         
+        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+      }}).then(response => 
+        response.json().then(json => {
+          this.people = json.results
+          console.log(this.people)
+      }))
     }
   }
 }
