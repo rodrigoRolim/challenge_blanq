@@ -2,7 +2,7 @@
 <div>
  <nav-bar></nav-bar>
  <div class="container-business">
-   <md-table v-model="business" md-card md-sort="name" md-sort-order="asc" md-fixed-header>
+   <md-table v-model="companies" md-card md-sort="name" md-sort-order="asc" md-fixed-header>
       <md-table-toolbar>
         <h1 class="md-title">Empresas</h1>
          <router-link to="/new-company"> 
@@ -19,23 +19,23 @@
         <md-table-cell md-label="Deletar" md-sort-by="objectId">
           <span v-on:click="deleteCompany(item.objectId)"><md-icon id="icon-del">delete</md-icon></span>
         </md-table-cell>
-      </md-table-row>
-      
+        <md-table-cell md-label="Editar" md-sort-by="objectId">
+          <router-link :to="'/new-company/'+item.objectId"><md-icon id="icon-edit">edit</md-icon></router-link>
+        </md-table-cell>
+      </md-table-row>  
    </md-table>
  </div>
 </div>
 </template>
 <script>
 import NavBar from '../NavBar.vue'
-import EmptyList from '../EmptyList.vue'
 export default {
   name: 'TableBusiness',
   components: {
-   NavBar,
-   EmptyList
+   NavBar  
   },
   data: () => ({
-   business: []
+   companies: []
   }),
   methods: {
     createOptions () {
@@ -48,53 +48,63 @@ export default {
       }
       return options
     },
-    deleteCompany (idCompany) {
-   
+    deleteCompany (idCompany) {   
       const options = this.createOptions()
       fetch(`https://parseapi.back4app.com/classes/Company/${idCompany}`, options)
       .then(response =>{ 
         response.json().then(json => {
-          this.business = this.business.filter(bus => bus.objectId !== idCompany)
+          this.companies = this.companies.filter(bus => bus.objectId !== idCompany)
+          //this.$store.dispatch('getCompanyList')
           console.log('check it out');
           console.log(json)
         })
       })
     }
   },
-  beforeCreate () {
-    fetch('https://parseapi.back4app.com/classes/Company/', {
-      method: 'get',
-      headers: {         
-        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-      },
-    } 
-    ).then(response => 
-        response.json().then(json => {
-          this.business = json.results
-          console.log(json.results)
-    }))
+  computed: {
+    getCompanies: function () {
+      fetch('https://parseapi.back4app.com/classes/Company/', {
+        method: 'get',
+        headers: {         
+          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
+          "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
+       }}).then(response => 
+          response.json().then(json => {
+            this.companies = json.results
+            //console.log(state.companies)
+      }))
+    }
+  },
+  created () {
+    this.getCompanies
   },
 }
 </script>
 <style lang="scss" scoped>
+  $nameBtnColor: white;
+  $iconDelColor: rgb(255, 59, 59);
+  $iconEditColor: rgb(0, 119, 255);
+
  .container-business {
   display: flex;
   flex-direction: column;
   padding: 100px 0;
-  width: 60%;
+  width: 70%;
   margin: 0 auto;
  }
   #btn {
   background-color: rgb(12, 136, 105);
-  color: white;
+  color: $nameBtnColor;
  }
  #ic {
-     color: white;
+    color: $nameBtnColor;
  }
  #icon-del {
-   color: rgb(255, 59, 59);
+   color: $iconDelColor;
    cursor: pointer;
+ }
+ #icon-edit {
+   color: $iconEditColor;
  }
  #icon-del:hover {
    transform: scale(1.2)
