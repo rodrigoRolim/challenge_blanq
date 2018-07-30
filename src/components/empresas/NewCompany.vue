@@ -98,7 +98,7 @@
 </template>
 <script>
  import NavBar from '../NavBar.vue'
- import { Business } from '../../models/Business'
+//  import { Business } from '../../models/Business'
  import { validationMixin } from 'vuelidate'
  import {
     required,
@@ -179,7 +179,7 @@
        const companyBody = {
         objectId: this.$route.params.id,
         name: company.name,
-        address: company.adress,
+        address: company.address,
         who_visited: company.who_visited,
         pictures: company.pictures,
         phones: company.phones
@@ -207,12 +207,16 @@
        this.lastCompany = this.company.name
        this.companySaved = true
     },
+    addState () {
+      this.$store.commit("addCompany", this.company)
+    },
     saveCompany () {
       this.sending = true;
-      fetch( this.requestUrl(this.$route.params.id), this.createOptions(this.company))
+      fetch(this.requestUrl(this.$route.params.id), this.createOptions(this.company))
       .then(response => { 
           response.json().then(json => {
             this.confirmeLastCompany()
+            this.addState()
             this.clearForm()
           })
         })
@@ -231,15 +235,11 @@
         }))
      },
      buildCompany (company) {
-       console.log(company)
        this.company = company
-       console.log(this.company.pictures)
        this.takePictures(company.pictures)
        
      },
      takePictures (pictures) {
- 
-       console.log(pictures)
        pictures.forEach(picture => {
           this.slicedPicturePath(picture)
        });
