@@ -169,6 +169,9 @@
       }
       return options
     },
+    addState () {
+      this.$store.commit("addPeople", this.people)
+    },
     confirmeLastPeople () {
        this.sending = false
        this.lastPeople = this.people.firstname.concat(' ').concat(this.people.lastname)
@@ -180,6 +183,7 @@
       .then(response => { 
           response.json().then(json => {
             this.confirmeLastPeople()
+            this.addState()
             this.clearForm()      
           })
         })
