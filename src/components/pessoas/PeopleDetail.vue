@@ -23,14 +23,14 @@
 </template>
 <script>
 import NavBar from '../NavBar.vue'
-import { Person } from '../../models/Person'
+import { People } from '../../models/People'
  export default {
   name: 'PeopleDetail',
   components: {
    NavBar
   },
   data: () => ({
-   people: new Person()
+   people: new People()
   }),
   beforeCreate () {
    fetch('https://parseapi.back4app.com/classes/People/', {
