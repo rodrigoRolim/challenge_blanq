@@ -8,6 +8,7 @@ import routes from  './routes'
 import history from 'vue-history-api-fallback'
 import VueResource from 'vue-resource'
 import Vuex from 'vuex'
+import store from  './store/index'
 import App from './App.vue'
 
 Vue.use(VueMaterial)
@@ -19,6 +20,7 @@ const router = new VueRouter({
 })
 
 new Vue({
+  store,
   router,
   el: '#app',
   render: h => h(App)
