@@ -2,7 +2,7 @@
   <div>
     <NavBar></NavBar>
     <div class="container-people">
-      <md-table v-model="people" md-card md-fixed-header>
+      <md-table v-model="people" md-card md-sort="firstname lastname" md-fixed-header>
           <md-table-toolbar>
             <h1 class="md-title">Pessoas</h1>
             <router-link to="/new-people"> 
