@@ -6,21 +6,30 @@
       <md-toolbar :md-elevation="1">
         <span class="md-title">Informações</span>
       </md-toolbar>
-    <md-content class="md-layout">
-      <md-list  >
-        <md-list-item>Nome: {{ company.name }}</md-list-item>
-        <md-list-item>Endereço: {{ company.address }}</md-list-item>
-        <md-list-item>Phones: {{ company.name }}</md-list-item>
-      </md-list>
-      <md-list  >
-        <md-subheader >Visitantes: </md-subheader>
-        <md-list-item
-         :to="'/people/' + visited"
-         v-for="visited in company.who_visited" v-bind:key="visited">
-          {{ visited }}
-        </md-list-item>
-      </md-list>
-    </md-content>
+      <md-content class="md-layout">
+        <md-list >
+          <md-list-item>
+            <div class="md-list-item-text">
+            <p>Nome: {{ company.name }}</p>
+            <p>Endereço: {{ company.address }}</p>
+          </div>
+          </md-list-item>
+        </md-list>
+        <md-list>
+          <md-subheader>Phones: </md-subheader>
+          <md-list-item v-for="phone in company.phones" v-bind:key="phone">
+            {{ phone }}
+          </md-list-item>
+        </md-list>
+        <md-list>
+          <md-subheader >Visitantes: </md-subheader>
+          <md-list-item
+          :to="'/people/' + visited"
+          v-for="visited in company.who_visited" v-bind:key="visited">
+            {{ visited }}
+          </md-list-item>
+        </md-list>
+      </md-content>
     </div>
     <div class="container-pictures">
       <md-content class="md-layout md-alignment-center">
@@ -51,7 +60,7 @@
 </template>
 <script>
 import NavBar from '../NavBar.vue'
-import { Business } from '../../models/Business';
+import { Company } from '../../models/Company';
  export default {
   name: 'CompanyDetails',
   components: {
@@ -59,7 +68,7 @@ import { Business } from '../../models/Business';
   },
   data: () => {
    return {
-    company: new Business()
+    company: new Company()
    }
   },
   beforeCreate () {
