@@ -57,7 +57,6 @@ export default {
       .then(response =>{ 
         response.json().then(json => {
           this.companies = this.companies.filter(bus => bus.objectId !== idCompany)
-          //this.$store.dispatch('getCompanyList')
           this.deleteState(idCompany)
           console.log('check it out');
           console.log(json)

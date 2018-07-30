@@ -74,7 +74,6 @@ export default {
   computed: {
     getPeoples: function () {
       const store = this.$store.state.peoples
-      console.log(store)
       if(store.length == 0) {
         this.$fetch.read('People')
           .then(response => response.json())
@@ -85,7 +84,6 @@ export default {
       } else {
         this.peoples = this.$store.state.peoples
       }
- 
     }
   }
 }

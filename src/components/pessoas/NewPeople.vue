@@ -125,7 +125,6 @@
   methods: {
     getValidationClass (fieldName) {
         const field = this.$v.people[fieldName]
-
         if (field) {
           return {
             'md-invalid': field.$invalid && field.$dirty
@@ -134,9 +133,7 @@
     },
     sendForValidate () {
       this.$v.$touch()
-      console.log("entrou foi aqui")
       if (!this.$v.$invalid) {
-        console.log("entrou")
         this.savePeople()
       }
     },
@@ -208,7 +205,6 @@
                               .filter(people => people.objectId == idPeople)
                               .pop())
       }
-     
     },
     buildPeople (response) {
       this.people.firstname = response.firstname
@@ -229,7 +225,6 @@
       }
     },
   },
-
   created () {
     this.companiesListAll()
     if (this.$route.params.id !== null) {

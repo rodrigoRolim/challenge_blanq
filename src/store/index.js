@@ -10,11 +10,9 @@ export default new Vuex.Store({
  },
  mutations: {
   companyListAll (state, company) {
-   console.log(company)
    state.companies = company
   },
   addCompany (state, company) {
-    //console.log(state.companies.some(comp => comp.objectId == company.objectId))
     if(state.companies.some(comp => comp.objectId == company.objectId)){
       state.companies.push(company)
     } else {
@@ -40,13 +38,5 @@ export default new Vuex.Store({
   deletePeople (state, idPeople) {
     state.peoples = state.peoples.filter(people => people.objectId !== idPeople)
   }
- },
- actions: {
-  getCompanyList (context) {
-   
-  },
-  getPeopleList (context) {
-    
-  } 
  }
 })

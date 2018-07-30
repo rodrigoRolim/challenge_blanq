@@ -42,8 +42,9 @@ import { People } from '../../models/People'
     } 
     ).then(response => 
         response.json().then(json => {
-          this.people = json.results.filter(people => people.objectId == this.$route.params.id).pop()
-          console.log(json.results)
+          this.people = json.results
+            .filter(people => people.objectId == this.$route.params.id)
+            .pop()
     }))
   },
  }

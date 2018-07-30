@@ -167,9 +167,7 @@
     },
     sendForValidate () {
       this.$v.$touch()
-      console.log("entrou foi aqui")
       if (!this.$v.$invalid) {
-        console.log("entrou")
         this.saveCompany()
       }
     },
