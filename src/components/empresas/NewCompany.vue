@@ -208,22 +208,18 @@
        this.lastCompany = this.company.name
        this.companySaved = true
     },
-    addState () {
-      this.$store.commit("addCompany", this.company)
-    },
     saveCompany () {
       this.sending = true;
       fetch(this.requestUrl(this.$route.params.id), this.createOptions(this.company))
       .then(response => { 
           response.json().then(json => {
             this.confirmeLastCompany()
-            this.addState()
             this.clearForm()
           })
         })
       },
       searchCompany (idCompany) {
-        if(this.$store.state.companies.pop() == undefined) {
+        if(this.$store.state.companies.length == 0) {
            this.$fetch.read('Company')
               .then(response => response.json())
               .then(json => {
@@ -261,7 +257,18 @@
         this.picture = null
       },
        peoplesListAll () {
-          this.peoples = this.$store.state.peoples
+         const store = this.$store.state.peoples
+         if(store == 0) {
+            this.$fetch.read('People')
+              .then(response => response.json())
+              .then(json => {
+                this.peoples = json.results
+                this.$store.commit("peopleListAll", json.results)
+              })
+         } else {
+           this.peoples = this.$store.state.peoples
+         }
+          
        },
     },
     created () {

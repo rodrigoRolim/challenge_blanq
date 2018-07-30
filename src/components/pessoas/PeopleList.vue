@@ -57,24 +57,35 @@ export default {
       }
       return options
     },
+    deleteState (idPeople) {
+      this.$store.commit("deletePeople", idPeople)
+    },
     deletePeople (idPeople) {
       const options = this.createOptions()
       fetch(`https://parseapi.back4app.com/classes/People/${idPeople}`, options)
       .then(response =>{ 
         response.json().then(json => {
-          this.people = this.people.filter(bus => bus.objectId !== idPeople)
+          this.peoples = this.peoples.filter(people => people.objectId !== idPeople)
+          this.deleteState(idPeople)
         })
       })
     }
   },
   computed: {
     getPeoples: function () {
-       this.$fetch.read('People')
-           .then(response => response.json())
-           .then(json => {
-             this.peoples = json.results
-             this.$store.commit('peopleListAll', this.peoples)
-           })
+      const store = this.$store.state.peoples
+      console.log(store)
+      if(store.length == 0) {
+        this.$fetch.read('People')
+          .then(response => response.json())
+          .then(json => {
+            this.peoples = json.results
+            this.$store.commit('peopleListAll', this.peoples)
+          })
+      } else {
+        this.peoples = this.$store.state.peoples
+      }
+ 
     }
   }
 }

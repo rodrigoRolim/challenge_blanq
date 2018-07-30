@@ -169,9 +169,6 @@
       }
       return options
     },
-    addState () {
-      this.$store.commit("addPeople", this.people)
-    },
     addState (peoples) {
       this.$store.commit("peopleListAll", peoples)
     },
@@ -186,7 +183,6 @@
       .then(response => { 
           response.json().then(json => {
             this.confirmeLastPeople()
-            this.addState()
             this.clearForm()      
           })
         })
@@ -199,7 +195,7 @@
         this.people.want_visit = []
     },
     searchPeople (idPeople) {
-      if(this.$store.state.peoples.pop() == undefined) {
+      if(this.$store.state.peoples.length == 0) {
         this.$fetch.read('People')
           .then(response => response.json())
           .then(json => {
@@ -221,7 +217,16 @@
       this.people.want_visit = response.want_visit
     },
     companiesListAll () {
-      this.companies = this.$store.state.companies
+      if(this.$store.state.companies.length == 0) {
+        this.$fetch.read('Company')
+          .then(response => response.json())
+          .then(json => {
+            this.companies = json.results
+            this.$store.commit("companyListAll", json.results)
+        })
+      } else {
+        this.companies = this.$store.state.companies
+      }
     },
   },
 
