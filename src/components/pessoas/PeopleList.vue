@@ -93,7 +93,7 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 100px 0;
-  width: 60%;
+  width: 70%;
   margin: 0 auto;
  }
  #icon-del {
