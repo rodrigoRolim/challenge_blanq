@@ -1,7 +1,7 @@
-export class Business {
+export class Company {
  constructor () {
-  this.name = ''
-  this.address = ''
+  this.name = null
+  this.address = null
   this.phones = []
   this.pictures = []
   this.persons = []
