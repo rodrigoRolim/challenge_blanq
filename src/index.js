@@ -9,12 +9,14 @@ import history from 'vue-history-api-fallback'
 import VueResource from 'vue-resource'
 import Vuex from 'vuex'
 import store from  './store/index'
+import plugin from './plugins/index'
 import App from './App.vue'
 
 Vue.use(VueMaterial)
 Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(Vuex)
+Vue.use(plugin)
 const router = new VueRouter({
   routes
 })
