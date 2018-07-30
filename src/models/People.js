@@ -1,4 +1,4 @@
-export class Person {
+export class People {
  constructor () {
   this.id = ''
   this.firstname = ''
