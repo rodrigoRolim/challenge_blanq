@@ -100,6 +100,7 @@
  import NavBar from '../NavBar.vue'
  import { People } from '../../models/People'
  import { validationMixin } from 'vuelidate'
+
  import {
     required,
  } from 'vuelidate/lib/validators'
@@ -222,26 +223,30 @@
         })
       },
       searchCompany (idCompany) {
-        fetch('https://parseapi.back4app.com/classes/Company/', {
-          method: 'get',
-          headers: {         
-            "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-            "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-          },
-        }).then(response => 
-          response.json().then(json => {
-            const company = json.results.filter(company => company.objectId == idCompany)
-            this.buildCompany(company.pop())
-        }))
+        if(this.$store.state.companies.pop() == undefined) {
+           this.$fetch.read('Company')
+              .then(response => response.json())
+              .then(json => {
+                const company = json.results.filter(company => company.objectId == idCompany)
+                this.buildCompany(company.pop())
+                this.$store.commit("companyListAll", json.results)
+              })
+        } else {
+          this.buildCompany( this.$store.state.companies
+                              .filter(company => company.objectId == idCompany)
+                              .pop())
+        }
      },
      buildCompany (company) {
        this.company = company
        this.takePictures(company.pictures)
+       
      },
      takePictures (pictures) {
        pictures.forEach(picture => {
           this.slicedPicturePath(picture)
-       });    
+       });
+      
      },
       clearForm () {
         this.$v.$reset()

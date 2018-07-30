@@ -2,7 +2,7 @@
   <div>
     <NavBar></NavBar>
     <div class="container-people">
-      <md-table v-model="people" md-card md-sort="firstname lastname" md-fixed-header>
+      <md-table v-model="peoples" md-card md-sort="firstname lastname" md-fixed-header>
           <md-table-toolbar>
             <h1 class="md-title">Pessoas</h1>
             <router-link to="/new-people"> 
@@ -34,13 +34,14 @@
 </template>
 <script>
  import NavBar from '../NavBar.vue'
+ import { People } from '../../models/People' 
 export default {
   name: 'PeopleList',
   components: {
    NavBar,
   },
   data: () => ({
-   people: []
+   peoples: new People([])
   }),
   created () {
    this.getPeoples
@@ -68,16 +69,12 @@ export default {
   },
   computed: {
     getPeoples: function () {
-       fetch('https://parseapi.back4app.com/classes/People/', {
-      method: 'get',
-      headers: {         
-        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-      }}).then(response => 
-        response.json().then(json => {
-          this.people = json.results
-          console.log(this.people)
-      }))
+       this.$fetch.read('People')
+           .then(response => response.json())
+           .then(json => {
+             this.peoples = json.results
+             this.$store.commit('peopleListAll', this.peoples)
+           })
     }
   }
 }

@@ -172,6 +172,9 @@
     addState () {
       this.$store.commit("addPeople", this.people)
     },
+    addState (peoples) {
+      this.$store.commit("peopleListAll", peoples)
+    },
     confirmeLastPeople () {
        this.sending = false
        this.lastPeople = this.people.firstname.concat(' ').concat(this.people.lastname)
@@ -196,17 +199,20 @@
         this.people.want_visit = []
     },
     searchPeople (idPeople) {
-      fetch('https://parseapi.back4app.com/classes/People/', {
-        method: 'get',
-        headers: {         
-          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-          "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-        },
-      }).then(response => 
-         response.json().then(json => {
-           const people = json.results.filter(people => people.objectId == idPeople)
-           this.buildPeople(people.pop())
-      }))
+      if(this.$store.state.peoples.pop() == undefined) {
+        this.$fetch.read('People')
+          .then(response => response.json())
+          .then(json => {
+            const people = json.results.filter(people => people.objectId == idPeople)
+            this.buildPeople(people.pop())
+            this.addState(json.results)
+          })
+      } else {
+        this.buildPeople(this.$store.state.peoples
+                              .filter(people => people.objectId == idPeople)
+                              .pop())
+      }
+     
     },
     buildPeople (response) {
       this.people.firstname = response.firstname
