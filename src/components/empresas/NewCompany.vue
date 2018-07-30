@@ -98,7 +98,7 @@
 </template>
 <script>
  import NavBar from '../NavBar.vue'
-//  import { Business } from '../../models/Business'
+ import { People } from '../../models/People'
  import { validationMixin } from 'vuelidate'
  import {
     required,
@@ -119,7 +119,7 @@
       phones: [],
     },
     pictures: [],
-    peoples: [],
+    peoples: new People([]),
     lastCompany: null,
     companySaved: false,
     phone: null,
@@ -237,13 +237,11 @@
      buildCompany (company) {
        this.company = company
        this.takePictures(company.pictures)
-       
      },
      takePictures (pictures) {
        pictures.forEach(picture => {
           this.slicedPicturePath(picture)
-       });
-      
+       });    
      },
       clearForm () {
         this.$v.$reset()
@@ -258,15 +256,7 @@
         this.picture = null
       },
        peoplesListAll () {
-          fetch('https://parseapi.back4app.com/classes/People/', {
-          method: 'get',
-          headers: {         
-            "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-            "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-          }}).then(response => 
-              response.json().then(json => {
-                this.peoples = json.results
-          }))
+          this.peoples = this.$store.state.peoples
        },
     },
     created () {
