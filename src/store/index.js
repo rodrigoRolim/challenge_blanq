@@ -26,8 +26,19 @@ export default new Vuex.Store({
   deleteCompany (state, idCompany) {
     state.companies = state.companies.filter(company => company.objectId !== idCompany)
   },
-  peopleListAll (state, {people}) {
-    state.people = people
+  peopleListAll (state, peoples) {
+    state.peoples = peoples
+  },
+  addPeople (state, people) {
+    if(state.peoples.some(peop => peop.objectId = people.objectId)) {
+      state.peoples.push(people)
+    } else {
+      state.peoples = state.peoples.filter(peop => peop.objectId !== people.objectId)
+      state.peoples.push(people)
+    }
+  },
+  deletePeople (state, idPeople) {
+    state.peoples = state.peoples.filter(people => people.objectId !== idPeople)
   }
  },
  actions: {
