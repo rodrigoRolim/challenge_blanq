@@ -211,16 +211,7 @@
       this.people.want_visit = response.want_visit
     },
     companiesListAll () {
-      fetch('https://parseapi.back4app.com/classes/Company/', {
-      method: 'get',
-      headers: {         
-        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-      }}).then(response => 
-        response.json().then(json => {
-          console.log(json.results)
-          this.companies = json.results
-      }))
+      this.companies = this.$store.state.companies
     },
   },
 
