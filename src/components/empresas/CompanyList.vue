@@ -48,6 +48,9 @@ export default {
       }
       return options
     },
+    deleteState (idCompany) {
+      this.$store.commit("deleteCompany", idCompany)
+    },  
     deleteCompany (idCompany) {   
       const options = this.createOptions()
       fetch(`https://parseapi.back4app.com/classes/Company/${idCompany}`, options)
@@ -55,6 +58,7 @@ export default {
         response.json().then(json => {
           this.companies = this.companies.filter(bus => bus.objectId !== idCompany)
           //this.$store.dispatch('getCompanyList')
+          this.deleteState(idCompany)
           console.log('check it out');
           console.log(json)
         })
@@ -71,8 +75,9 @@ export default {
        }}).then(response => 
           response.json().then(json => {
             this.companies = json.results
-            //console.log(state.companies)
+            this.$store.commit('companyListAll', this.companies)
       }))
+      
     }
   },
   created () {
