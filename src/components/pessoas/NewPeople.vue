@@ -96,7 +96,6 @@
   data: () => ({
    
     people: {
-      id: null,
       firstname: null,
       lastname: null,
       email: null,
@@ -134,37 +133,8 @@
     sendForValidate () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
-        this.savePeople()
+        this.savePeople(this.people)
       }
-    },
-    requestMethod (params) {
-      return params !== undefined ? 'PUT': 'POST'
-    },
-    requestBody (people) {
-       const peopleHeader = {
-        objectId: this.$route.params.id,
-        firstname: people.firstname,
-        lastname: people.lastname,
-        email: people.email,
-        want_visit: people.want_visit
-      }
-      return peopleHeader
-    },
-    requestUrl (id) {
-      return id !== undefined ? 
-        `https://parseapi.back4app.com/classes/People/${id}`:
-        `https://parseapi.back4app.com/classes/People`; 
-    },
-    createOptions (people) {
-      const options = {
-        method: this.requestMethod(this.$route.params.id),
-        body: JSON.stringify(this.requestBody(people)),
-        headers: {
-          "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-          "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",
-        }
-      }
-      return options
     },
     addState (peoples) {
       this.$store.commit("peopleListAll", peoples)
@@ -174,15 +144,12 @@
        this.lastPeople = this.people.firstname.concat(' ').concat(this.people.lastname)
        this.userSaved = true
     },
-    savePeople () {
-      this.sending = true;
-      fetch(this.requestUrl(this.$route.params.id),this.createOptions(this.people))
-      .then(response => { 
-          response.json().then(json => {
-            this.confirmeLastPeople()
-            this.clearForm()      
-          })
-        })
+    savePeople (people) {
+      this.send = true
+      this.$fetch.write('People', people).then(response => {
+        this.confirmeLastPeople()
+        setTimeout(this.clearForm(), 2000)
+      }).catch(error => {console.log("error: "+error)})
     },
     clearForm () {
         this.$v.$reset()

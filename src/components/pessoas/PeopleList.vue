@@ -47,23 +47,11 @@ export default {
    this.getPeoples
   },
   methods: {
-    createOptions () {
-      const options = {
-        method: 'DELETE',
-        headers: {
-         "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-         "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG",  
-        }
-      }
-      return options
-    },
     deleteState (idPeople) {
       this.$store.commit("deletePeople", idPeople)
     },
     deletePeople (idPeople) {
-      const options = this.createOptions()
-      fetch(`https://parseapi.back4app.com/classes/People/${idPeople}`, options)
-      .then(response =>{ 
+      this.$fetch.erase('People', idPeople).then(response => {
         response.json().then(json => {
           this.peoples = this.peoples.filter(people => people.objectId !== idPeople)
           this.deleteState(idPeople)
