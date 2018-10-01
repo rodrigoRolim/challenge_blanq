@@ -20,8 +20,8 @@ function install (Vue) {
         }
       })
      },
-     erase (option) {
-      return fetch(`https://parseapi.back4app.com/classes/${option}`, {
+     erase (option, id) {
+      return fetch(`https://parseapi.back4app.com/classes/${option}/${id}`, {
         method: 'DELETE',
         headers: {
           "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
