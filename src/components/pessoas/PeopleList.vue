@@ -43,34 +43,45 @@ export default {
   data: () => ({
    peoples: new People([])
   }),
-  created () {
-   this.getPeoples
+  mounted () {
+   this.getPeoples()
   },
   methods: {
-    deleteState (idPeople) {
-      this.$store.commit("deletePeople", idPeople)
-    },
     deletePeople (idPeople) {
       this.$fetch.erase('People', idPeople).then(response => {
         response.json().then(json => {
           this.peoples = this.peoples.filter(people => people.objectId !== idPeople)
-          this.deleteState(idPeople)
+          this.deleteOfCache(idPeople)
         })
       })
-    }
-  },
-  computed: {
+    },
+    deleteOfCache (idPeople) {
+      try {
+        let peoples = JSON.parse(localStorage.getItem('peoples'))
+                        .filter(people => people.objectId !== idPeople)
+        const newPeoples = JSON.stringify(peoples)
+        localStorage.removeItem('peoples')
+        localStorage.setItem('peoples', newPeoples)
+      } catch (e) {
+        localStorage.removeItem('peoples')
+      }
+    },
     getPeoples: function () {
-      const store = this.$store.state.peoples
-      if(store.length == 0) {
-        this.$fetch.read('People')
-          .then(response => response.json())
-          .then(json => {
-            this.peoples = json.results
-            this.$store.commit('peopleListAll', this.peoples)
+      const peoples = JSON.parse(localStorage.getItem('peoples'))
+      console.log(peoples)
+      if(peoples == null) {
+        try {
+          this.$fetch.read('People')
+            .then(response => response.json())
+            .then(json => {
+              this.peoples = json.results
+              localStorage.setItem('peoples', JSON.stringify(this.peoples))
           })
+        } catch (e) {
+          localStorage.removeItem('peoples')
+        }
       } else {
-        this.peoples = this.$store.state.peoples
+        this.peoples = JSON.parse(localStorage.getItem('peoples'))
       }
     }
   }
@@ -92,4 +103,3 @@ export default {
    color: rgb(0, 119, 255)
  }
 </style>
-
