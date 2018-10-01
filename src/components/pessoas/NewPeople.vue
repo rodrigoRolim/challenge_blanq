@@ -136,9 +136,6 @@
         this.savePeople(this.people)
       }
     },
-    addState (peoples) {
-      this.$store.commit("peopleListAll", peoples)
-    },
     confirmeLastPeople () {
        this.sending = false
        this.lastPeople = this.people.firstname.concat(' ').concat(this.people.lastname)
@@ -159,12 +156,12 @@
         this.people.want_visit = []
     },
     searchPeople (idPeople) {
-      if(this.$store.state.peoples.length == 0) {
+      if(localStorage.getItem('peoples')) {
         this.$fetch.read('People')
           .then(response => response.json())
           .then(json => {
             const people = json.results.filter(people => people.objectId == idPeople)
-            this.buildPeople(people.pop())
+            this.people = people
             this.addState(json.results)
           })
       } else {
@@ -198,7 +195,6 @@
        this.searchPeople(this.$route.params.id)
     }
   },
-
  }
 </script>
 <style lang="scss" scoped>
