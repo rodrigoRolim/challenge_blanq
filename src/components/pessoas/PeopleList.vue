@@ -68,7 +68,6 @@ export default {
     },
     getPeoples: function () {
       const peoples = JSON.parse(localStorage.getItem('peoples'))
-      console.log(peoples)
       if(peoples == null) {
         try {
           this.$fetch.read('People')

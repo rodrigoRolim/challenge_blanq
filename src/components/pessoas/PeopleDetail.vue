@@ -33,14 +33,8 @@ import { People } from '../../models/People'
    people: new People()
   }),
   beforeCreate () {
-   fetch('https://parseapi.back4app.com/classes/People/', {
-      method: 'get',
-      headers: {         
-        "X-Parse-Application-Id": "JPdleQSgMjUF06VvAPfjPb6tyPwnDpepAeTEtBYL",         
-        "X-Parse-REST-API-Key": "eQM22TzI3BwImu6IVKXOeFei2NTLV6StBQvsUVJG"     
-      },
-    } 
-    ).then(response => 
+   this.$fetch.read('People')
+        .then(response => 
         response.json().then(json => {
           this.people = json.results
             .filter(people => people.objectId == this.$route.params.id)

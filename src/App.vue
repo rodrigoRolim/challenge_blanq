@@ -13,6 +13,11 @@ export default {
     return {
       message: 'Hello, Vue!'
     };
+  },
+  methods: {
+    teste () {
+      return "boo"
+    }
   }
 };
 </script>
